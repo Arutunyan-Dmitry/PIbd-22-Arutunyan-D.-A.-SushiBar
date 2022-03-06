@@ -50,18 +50,6 @@ namespace SushiBarView
             form.ShowDialog();
         }
 
-        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormStorageFacilities>();
-            form.ShowDialog();
-        }
-
-        private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormStorageFacilityFill>();
-            form.ShowDialog();
-        }
-
         private void buttonCreateOrder_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormCreateOrder>();
@@ -133,7 +121,5 @@ namespace SushiBarView
         {
             LoadData();
         }
-
-
     }
 }
