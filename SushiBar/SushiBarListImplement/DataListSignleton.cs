@@ -9,11 +9,13 @@ namespace SushiBarListImplement
         public List<Ingredient> Ingredients { get; set; }
         public List<Order> Orders { get; set; }
         public List<Dish> Dishes { get; set; }
+        public List<StorageFacility> StorageFacilities { get; set; }
         private DataListSingleton()
         {
             Ingredients = new List<Ingredient>();
             Orders = new List<Order>();
             Dishes = new List<Dish>();
+            StorageFacilities = new List<StorageFacility>();
         }
         public static DataListSingleton GetInstance()
         {
