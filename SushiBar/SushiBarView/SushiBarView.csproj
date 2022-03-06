@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SushiBarBuisnessLogic\SushiBarBuisnessLogic.csproj" />
-    <ProjectReference Include="..\SushiBarListImplement\SushiBarListImplement.csproj" />
-  </ItemGroup>
+    <ProjectReference Include="..\SushiBarFileImplement\SushiBarFileImplement.csproj" />
+    <ProjectReference Include="..\SushiBarListImplement\SushiBarListImplement.csproj" /> </ItemGroup>
 
 </Project>
