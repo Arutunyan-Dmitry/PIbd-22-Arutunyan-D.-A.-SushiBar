@@ -2,35 +2,36 @@
 using System.Windows.Forms;
 using Unity;
 using SushiBarContracts.BindingModels;
+using SushiBarContracts.ViewModels;
 using SushiBarContracts.BuisnessLogicContracts;
+using System.Collections.Generic;
 
 namespace SushiBarView
 {
-    public partial class FormDishes : Form
+    public partial class FormStorageFacilities : Form
     {
-        private readonly IDishLogic _logic;
-        public FormDishes(IDishLogic logic)
+        private readonly IStorageFacilityLogic _logic;
+        public FormStorageFacilities(IStorageFacilityLogic logic)
         {
             InitializeComponent();
             _logic = logic;
         }
 
-        private void FormDishes_Load(object sender, EventArgs e)
+        private void FormStorageFacilities_Load(object sender, EventArgs e)
         {
             LoadData();
         }
-
         private void LoadData()
         {
             try
             {
-                var list = _logic.Read(null);
+                List<StorageFacilityViewModel> list = _logic.Read(null);
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[3].Visible = false;
+                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[4].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace SushiBarView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Program.Container.Resolve<FormDish>();
+            var form = Program.Container.Resolve<FormStorageFacility>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -52,7 +53,7 @@ namespace SushiBarView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Program.Container.Resolve<FormDish>();
+                var form = Program.Container.Resolve<FormStorageFacility>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -70,7 +71,7 @@ namespace SushiBarView
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        _logic.Delete(new DishBindingModel { Id = id });
+                        _logic.Delete(new StorageFacilityBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {

@@ -60,6 +60,7 @@ namespace SushiBarView
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(264, 27);
             this.textBoxName.TabIndex = 2;
+            this.textBoxName.Tag = "";
             // 
             // buttonSave
             // 
