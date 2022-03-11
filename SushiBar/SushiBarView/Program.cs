@@ -5,7 +5,8 @@ using Unity.Lifetime;
 using SushiBarContracts.BuisnessLogicContracts;
 using SushiBarContracts.StoragesContracts;
 using SushiBarBuisnessLogic.BuisnessLogic;
-using SushiBarListImplement.Implements;
+using SushiBarFileImplement.Implements;
+using SushiBarFileImplement;
 
 namespace SushiBarView
 {
@@ -22,24 +23,25 @@ namespace SushiBarView
                 }
                 return container;
             }
-        }
+        }     
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
-        {
+        {           
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(Container.Resolve<FormMain>());
+            FileDataListSingleton.SaveFileDataListSingleton();
         }
 
         private static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<IIngredientStorage,
-            IngredientStorage>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IIngredientStorage, IngredientStorage>(new 
+            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDishStorage, DishStorage>(new

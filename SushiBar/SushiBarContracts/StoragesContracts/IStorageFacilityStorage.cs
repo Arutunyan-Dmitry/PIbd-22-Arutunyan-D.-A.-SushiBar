@@ -12,5 +12,6 @@ namespace SushiBarContracts.StoragesContracts
         void Insert(StorageFacilityBindingModel model);
         void Update(StorageFacilityBindingModel model);
         void Delete(StorageFacilityBindingModel model);
+        bool TakeIngredientFromStore(Dictionary<int, (string, int)> ingredients, int dishNumb);
     }
 }
