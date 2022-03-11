@@ -79,14 +79,6 @@ namespace SushiBarFileImplement.Implements
 
         private OrderViewModel CreateModel(Order order)
         {
-            string dishName = string.Empty;
-            foreach (var dish in source.Dishes)
-            {
-                if (dish.Id == order.DishId)
-                {
-                    dishName = dish.DishName;
-                }
-            }
             return new OrderViewModel
             {
                 Id = order.Id,
