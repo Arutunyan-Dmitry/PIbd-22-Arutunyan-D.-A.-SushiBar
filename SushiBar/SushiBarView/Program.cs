@@ -5,8 +5,7 @@ using Unity.Lifetime;
 using SushiBarContracts.BuisnessLogicContracts;
 using SushiBarContracts.StoragesContracts;
 using SushiBarBuisnessLogic.BuisnessLogic;
-using SushiBarFileImplement.Implements;
-using SushiBarFileImplement;
+using SushiBarDatabaseImplement.Implements;
 
 namespace SushiBarView
 {
@@ -34,8 +33,7 @@ namespace SushiBarView
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(Container.Resolve<FormMain>());
-            FileDataListSingleton.SaveFileDataListSingleton();
-        }
+         }
 
         private static IUnityContainer BuildUnityContainer()
         {
