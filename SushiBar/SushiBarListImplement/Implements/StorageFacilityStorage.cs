@@ -8,7 +8,7 @@ using SushiBarContracts.StoragesContracts;
 
 namespace SushiBarListImplement.Implements
 {
-    public class StorageFacilityStorage : IStorageFacilityStorage
+    public class StorageFacilityStorage// : IStorageFacilityStorage
     {
         private readonly DataListSingleton source;
 
