@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SushiBarContracts", "SushiB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SushiBarListImplement", "SushiBarListImplement\SushiBarListImplement.csproj", "{D974BAAD-A4AF-435B-B8D2-258051008AB2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SushiBarBuisnessLogic", "SushiBarBuisnessLogic\SushiBarBuisnessLogic.csproj", "{BB5F0584-D692-4B93-9746-2EF4F7FA999C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SushiBarBusinessLogic", "SushiBarBuisnessLogic\SushiBarBusinessLogic.csproj", "{BB5F0584-D692-4B93-9746-2EF4F7FA999C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SushiBarFileImplement", "SushiBarFileImplement\SushiBarFileImplement.csproj", "{9FA7F77E-B603-4993-8BE7-311222626DA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SushiBarDatabaseImplement", "SushiBarDatabaseImplement\SushiBarDatabaseImplement.csproj", "{CDC0E73A-DB29-40A0-922C-5C4CCCAE15BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SushiBarDatabaseImplement", "SushiBarDatabaseImplement\SushiBarDatabaseImplement.csproj", "{CDC0E73A-DB29-40A0-922C-5C4CCCAE15BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

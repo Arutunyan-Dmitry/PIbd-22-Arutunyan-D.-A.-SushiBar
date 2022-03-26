@@ -5,7 +5,7 @@ using SushiBarContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 
-namespace SushiBarBuisnessLogic.BuisnessLogic
+namespace SushiBarBusinessLogic.BusinessLogic
 {
     public class DishLogic : IDishLogic
     {

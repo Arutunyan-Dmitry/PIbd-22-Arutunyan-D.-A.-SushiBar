@@ -25,9 +25,10 @@ namespace SushiBarFileImplement.Implements
             {
                 return null;
             }
-            return source.Orders.Where(rec => rec.DishId.ToString().Contains(model.DishId.ToString()))
-           .Select(CreateModel)
-           .ToList();
+            return source.Orders
+                .Where(rec => rec.DishId.ToString().Contains(model.DishId.ToString()) || rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                .Select(CreateModel)
+                .ToList();
         }
         public OrderViewModel GetElement(OrderBindingModel model)
         {

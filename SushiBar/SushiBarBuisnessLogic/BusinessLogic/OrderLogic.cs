@@ -6,7 +6,7 @@ using SushiBarContracts.Enums;
 using System;
 using System.Collections.Generic;
 
-namespace SushiBarBuisnessLogic.BuisnessLogic
+namespace SushiBarBusinessLogic.BusinessLogic
 {
     public class OrderLogic : IOrderLogic
     {
