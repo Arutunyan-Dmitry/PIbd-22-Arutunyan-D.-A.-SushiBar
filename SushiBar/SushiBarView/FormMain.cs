@@ -41,30 +41,6 @@ namespace SushiBarView
             }
         }
 
-        private void ингредиентыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormIngredients>();
-            form.ShowDialog();
-        }
-
-        private void блюдаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormDishes>();
-            form.ShowDialog();
-        }
-
-        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormStorageFacilities>();
-            form.ShowDialog();
-        }
-
-        private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormStorageFacilityFill>();
-            form.ShowDialog();
-        }
-
         private void buttonCreateOrder_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormCreateOrder>();
@@ -131,10 +107,27 @@ namespace SushiBarView
                 }
             }
         }
-
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void ингредиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormIngredients>();
+            form.ShowDialog();
+        }
+
+        private void блюдаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormDishes>();
+            form.ShowDialog();
+        }
+
+        private void складыToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormStorageFacilities>();
+            form.ShowDialog();
         }
 
         private void списокБлюдToolStripMenuItem_Click(object sender, EventArgs e)
@@ -159,6 +152,12 @@ namespace SushiBarView
         private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportOrders>();
+            form.ShowDialog();
+        }
+
+        private void пополнениеСкладаToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormStorageFacilityFill>();
             form.ShowDialog();
         }
     }

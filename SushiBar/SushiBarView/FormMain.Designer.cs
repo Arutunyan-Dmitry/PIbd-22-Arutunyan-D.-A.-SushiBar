@@ -54,7 +54,8 @@ namespace SushiBarView
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.справочникиToolStripMenuItem,
-            this.отчётыToolStripMenuItem});
+            this.отчётыToolStripMenuItem,
+            this.пополнениеСкладаToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1093, 28);
@@ -74,14 +75,14 @@ namespace SushiBarView
             // ингредиентыToolStripMenuItem
             // 
             this.ингредиентыToolStripMenuItem.Name = "ингредиентыToolStripMenuItem";
-            this.ингредиентыToolStripMenuItem.Size = new System.Drawing.Size(186, 26);
+            this.ингредиентыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.ингредиентыToolStripMenuItem.Text = "Ингредиенты";
             this.ингредиентыToolStripMenuItem.Click += new System.EventHandler(this.ингредиентыToolStripMenuItem_Click);
             // 
             // блюдаToolStripMenuItem
             // 
             this.блюдаToolStripMenuItem.Name = "блюдаToolStripMenuItem";
-            this.блюдаToolStripMenuItem.Size = new System.Drawing.Size(186, 26);
+            this.блюдаToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.блюдаToolStripMenuItem.Text = "Блюда";
             this.блюдаToolStripMenuItem.Click += new System.EventHandler(this.блюдаToolStripMenuItem_Click);
             // 
@@ -181,14 +182,14 @@ namespace SushiBarView
             this.складыToolStripMenuItem.Name = "складыToolStripMenuItem";
             this.складыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.складыToolStripMenuItem.Text = "Склады";
-            this.складыToolStripMenuItem.Click += new System.EventHandler(this.складыToolStripMenuItem_Click);
+            this.складыToolStripMenuItem.Click += new System.EventHandler(this.складыToolStripMenuItem_Click_1);
             // 
             // пополнениеСкладаToolStripMenuItem
             // 
             this.пополнениеСкладаToolStripMenuItem.Name = "пополнениеСкладаToolStripMenuItem";
             this.пополнениеСкладаToolStripMenuItem.Size = new System.Drawing.Size(162, 24);
             this.пополнениеСкладаToolStripMenuItem.Text = "Пополнение склада";
-            this.пополнениеСкладаToolStripMenuItem.Click += new System.EventHandler(this.пополнениеСкладаToolStripMenuItem_Click);
+            this.пополнениеСкладаToolStripMenuItem.Click += new System.EventHandler(this.пополнениеСкладаToolStripMenuItem_Click_1);
             // 
             // FormMain
             // 
@@ -230,5 +231,7 @@ namespace SushiBarView
         private System.Windows.Forms.ToolStripMenuItem списокБлюдToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокИнгредиентовПоБлюдамToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокЗаказовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem пополнениеСкладаToolStripMenuItem;
     }
 }
