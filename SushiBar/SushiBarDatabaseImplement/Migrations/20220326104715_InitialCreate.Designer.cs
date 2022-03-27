@@ -10,7 +10,7 @@ using SushiBarDatabaseImplement;
 namespace SushiBarDatabaseImplement.Migrations
 {
     [DbContext(typeof(SushiBarDatabase))]
-    [Migration("20220307194707_InitialCreate")]
+    [Migration("20220326104715_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,6 +113,54 @@ namespace SushiBarDatabaseImplement.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("SushiBarDatabaseImplement.Models.StorageFacility", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerFLM")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StorageFacilities");
+                });
+
+            modelBuilder.Entity("SushiBarDatabaseImplement.Models.StorageFacilityIngredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StorageFacilityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IngredientId");
+
+                    b.HasIndex("StorageFacilityId");
+
+                    b.ToTable("StorageFacilityIngredients");
+                });
+
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.DishIngredient", b =>
                 {
                     b.HasOne("SushiBarDatabaseImplement.Models.Dish", "Dish")
@@ -143,6 +191,25 @@ namespace SushiBarDatabaseImplement.Migrations
                     b.Navigation("Dish");
                 });
 
+            modelBuilder.Entity("SushiBarDatabaseImplement.Models.StorageFacilityIngredient", b =>
+                {
+                    b.HasOne("SushiBarDatabaseImplement.Models.Ingredient", "Ingredient")
+                        .WithMany("StorageFacilityIngredients")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SushiBarDatabaseImplement.Models.StorageFacility", "StorageFacility")
+                        .WithMany("StorageFacilityIngredients")
+                        .HasForeignKey("StorageFacilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingredient");
+
+                    b.Navigation("StorageFacility");
+                });
+
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.Dish", b =>
                 {
                     b.Navigation("DishIngredients");
@@ -153,6 +220,13 @@ namespace SushiBarDatabaseImplement.Migrations
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.Ingredient", b =>
                 {
                     b.Navigation("DishIngredients");
+
+                    b.Navigation("StorageFacilityIngredients");
+                });
+
+            modelBuilder.Entity("SushiBarDatabaseImplement.Models.StorageFacility", b =>
+                {
+                    b.Navigation("StorageFacilityIngredients");
                 });
 #pragma warning restore 612, 618
         }

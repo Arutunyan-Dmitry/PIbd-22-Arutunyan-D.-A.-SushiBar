@@ -16,5 +16,8 @@ namespace SushiBarDatabaseImplement.Models
 
         [ForeignKey("IngredientId")]
         public virtual List<DishIngredient> DishIngredients { get; set; }
+
+        [ForeignKey("IngredientId")]
+        public virtual List<StorageFacilityIngredient> StorageFacilityIngredients { get; set; }
     }
 }
