@@ -32,7 +32,7 @@ namespace SushiBarListImplement.Implements
             var result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
-                if (order.DishId.ToString().Contains(model.DishId.ToString()))
+                if (order.DishId.ToString().Contains(model.DishId.ToString()) || order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
                 {
                     result.Add(CreateModel(order));
                 }
