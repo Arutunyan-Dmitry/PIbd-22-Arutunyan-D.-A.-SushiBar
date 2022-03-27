@@ -133,7 +133,5 @@ namespace SushiBarView
         {
             LoadData();
         }
-
-
     }
 }
