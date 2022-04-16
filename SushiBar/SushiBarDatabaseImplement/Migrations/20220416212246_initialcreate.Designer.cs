@@ -10,8 +10,8 @@ using SushiBarDatabaseImplement;
 namespace SushiBarDatabaseImplement.Migrations
 {
     [DbContext(typeof(SushiBarDatabase))]
-    [Migration("20220326104715_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220416212246_initialcreate")]
+    partial class initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
