@@ -31,6 +31,7 @@ namespace SushiBarBusinessLogic.BusinessLogic
         {
             _orderStorage.Insert(new OrderBindingModel
             {
+                ClientId = model.ClientId,
                 DishId = model.DishId,
                 Count = model.Count,
                 Sum = model.Sum,
@@ -55,6 +56,7 @@ namespace SushiBarBusinessLogic.BusinessLogic
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -80,6 +82,7 @@ namespace SushiBarBusinessLogic.BusinessLogic
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId= order.ClientId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,
