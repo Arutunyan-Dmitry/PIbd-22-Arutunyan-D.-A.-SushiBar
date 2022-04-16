@@ -14,7 +14,12 @@ namespace SushiBarDatabaseImplement.Implements
         public List<OrderViewModel> GetFullList()
         {
             using var context = new SushiBarDatabase();
-            return context.Orders.Include(rec => rec.Dish).ToList().Select(CreateModel).ToList();
+            return context.Orders
+            .Include(rec => rec.Client)
+            .Include(rec => rec.Dish)
+            .ToList()
+            .Select(CreateModel)
+            .ToList();
         }
         public List<OrderViewModel> GetFilteredList(OrderBindingModel model)
         {
@@ -23,8 +28,12 @@ namespace SushiBarDatabaseImplement.Implements
                 return null;
             }
             using var context = new SushiBarDatabase();
-            return context.Orders.Include(rec => rec.Dish)
-                .Where(rec => rec.DishId == model.DishId || rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+            return context.Orders
+                .Include(rec => rec.Client)
+                .Include(rec => rec.Dish)
+                .Where(rec => rec.DishId == model.DishId || 
+                (rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
+                (rec.ClientId == model.ClientId))
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
@@ -36,7 +45,9 @@ namespace SushiBarDatabaseImplement.Implements
                 return null;
             }
             using var context = new SushiBarDatabase();
-            var order = context.Orders.Include(rec => rec.Dish)
+            var order = context.Orders
+                .Include(rec => rec.Client)
+                .Include(rec => rec.Dish)
                 .FirstOrDefault(rec => rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
@@ -94,6 +105,7 @@ namespace SushiBarDatabaseImplement.Implements
         private static Order CreateModel(OrderBindingModel model, Order order)
         {
             order.DishId = model.DishId;
+            order.ClientId = model.ClientId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -107,6 +119,8 @@ namespace SushiBarDatabaseImplement.Implements
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFLM = order.Client.ClientFLM,
                 DishId = order.DishId,
                 DishName = order.Dish.DishName,
                 Count = order.Count,

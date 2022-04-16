@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SushiBarView", "SushiBarView\SushiBarView.csproj", "{BAA74B16-7CE4-4E50-8355-EA29757392C9}"
 EndProject
@@ -14,6 +14,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SushiBarFileImplement", "SushiBarFileImplement\SushiBarFileImplement.csproj", "{9FA7F77E-B603-4993-8BE7-311222626DA8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SushiBarDatabaseImplement", "SushiBarDatabaseImplement\SushiBarDatabaseImplement.csproj", "{CDC0E73A-DB29-40A0-922C-5C4CCCAE15BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SushiBarRestApi", "SushiBarRestApi\SushiBarRestApi.csproj", "{44910907-F909-46F2-9C36-6B493431CF45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SushiBarClientApp", "SushiBarClientApp\SushiBarClientApp.csproj", "{F2853F95-6A1E-4702-B3CA-70AECF7DC64B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{CDC0E73A-DB29-40A0-922C-5C4CCCAE15BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDC0E73A-DB29-40A0-922C-5C4CCCAE15BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDC0E73A-DB29-40A0-922C-5C4CCCAE15BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44910907-F909-46F2-9C36-6B493431CF45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44910907-F909-46F2-9C36-6B493431CF45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44910907-F909-46F2-9C36-6B493431CF45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44910907-F909-46F2-9C36-6B493431CF45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2853F95-6A1E-4702-B3CA-70AECF7DC64B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2853F95-6A1E-4702-B3CA-70AECF7DC64B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2853F95-6A1E-4702-B3CA-70AECF7DC64B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2853F95-6A1E-4702-B3CA-70AECF7DC64B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

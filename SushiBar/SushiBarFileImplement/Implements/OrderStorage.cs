@@ -26,7 +26,9 @@ namespace SushiBarFileImplement.Implements
                 return null;
             }
             return source.Orders
-                .Where(rec => rec.DishId.ToString().Contains(model.DishId.ToString()) || rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
+                (rec.ClientId == model.ClientId))
                 .Select(CreateModel)
                 .ToList();
         }
@@ -37,7 +39,7 @@ namespace SushiBarFileImplement.Implements
                 return null;
             }
             var order = source.Orders
-                .FirstOrDefault(rec => rec.DishId == model.DishId || rec.Id == model.Id);
+            .FirstOrDefault(rec => rec.DishId == model.DishId || rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
         public void Insert(OrderBindingModel model)
@@ -70,6 +72,7 @@ namespace SushiBarFileImplement.Implements
         private static Order CreateModel(OrderBindingModel model, Order order)
         {
             order.DishId = model.DishId;
+            order.ClientId = model.ClientId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -84,6 +87,8 @@ namespace SushiBarFileImplement.Implements
             {
                 Id = order.Id,
                 DishId = order.DishId,
+                ClientId = order.ClientId,
+                ClientFLM = source.Clients.FirstOrDefault(rec => rec.Id == order.ClientId)?.ClientFLM,
                 DishName = source.Dishes.FirstOrDefault(rec => rec.Id == order.DishId)?.DishName,               
                 Count = order.Count,
                 Sum = order.Sum,
