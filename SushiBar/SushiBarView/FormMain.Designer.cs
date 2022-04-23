@@ -33,7 +33,6 @@ namespace SushiBarView
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ингредиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.блюдаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.складыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчётыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокБлюдToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокИнгредиентовПоБлюдамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,8 +63,7 @@ namespace SushiBarView
             // 
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ингредиентыToolStripMenuItem,
-            this.блюдаToolStripMenuItem,
-            this.складыToolStripMenuItem});
+            this.блюдаToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(117, 24);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -83,13 +81,6 @@ namespace SushiBarView
             this.блюдаToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.блюдаToolStripMenuItem.Text = "Блюда";
             this.блюдаToolStripMenuItem.Click += new System.EventHandler(this.блюдаToolStripMenuItem_Click);
-            // 
-            // складыToolStripMenuItem
-            // 
-            this.складыToolStripMenuItem.Name = "складыToolStripMenuItem";
-            this.складыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.складыToolStripMenuItem.Text = "Склады";
-            this.складыToolStripMenuItem.Click += new System.EventHandler(this.складыToolStripMenuItem_Click_1);
             // 
             // отчётыToolStripMenuItem
             // 
@@ -222,6 +213,5 @@ namespace SushiBarView
         private System.Windows.Forms.ToolStripMenuItem списокБлюдToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокИнгредиентовПоБлюдамToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокЗаказовToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem;
     }
 }
