@@ -4,8 +4,10 @@ using Unity;
 using Unity.Lifetime;
 using SushiBarContracts.BuisnessLogicContracts;
 using SushiBarContracts.StoragesContracts;
-using SushiBarBuisnessLogic.BuisnessLogic;
+using SushiBarBusinessLogic.BusinessLogic;
 using SushiBarDatabaseImplement.Implements;
+using SushiBarBusinessLogic.OfficePackage;
+using SushiBarBusinessLogic.OfficePackage.Implements;
 
 namespace SushiBarView
 {
@@ -53,6 +55,14 @@ namespace SushiBarView
             currentContainer.RegisterType<IDishLogic, DishLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStorageFacilityLogic, StorageFacilityLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IReportLogic, ReportLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractSaveToWord, SaveToWord>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractSaveToPdf, SaveToPdf>(new
             HierarchicalLifetimeManager());
             return currentContainer;
         }

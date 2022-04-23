@@ -5,7 +5,7 @@ using SushiBarContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 
-namespace SushiBarBuisnessLogic.BuisnessLogic
+namespace SushiBarBusinessLogic.BusinessLogic
 {
     public class StorageFacilityLogic : IStorageFacilityLogic
     {
@@ -44,6 +44,7 @@ namespace SushiBarBuisnessLogic.BuisnessLogic
             }
             else
             {
+                model.DateCreate = DateTime.Now;
                 _storageFacilityStorage.Insert(model);
             }
         }

@@ -24,7 +24,7 @@ namespace SushiBarDatabaseImplement.Implements
             }
             using var context = new SushiBarDatabase();
             return context.Orders.Include(rec => rec.Dish)
-                .Where(rec => rec.DishId == model.DishId)
+                .Where(rec => rec.DishId == model.DishId || rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
