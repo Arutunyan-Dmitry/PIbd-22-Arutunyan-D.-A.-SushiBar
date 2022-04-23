@@ -14,7 +14,7 @@ namespace SushiBarFileImplement
         private readonly string IngredientFileName = "Ingredient.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string DishFileName = "Dish.xml";
-        private readonly string ClientFileName = "Client.xml"
+        private readonly string ClientFileName = "Client.xml";
         public List<Ingredient> Ingredients { get; set; }
         public List<Order> Orders { get; set; }
         public List<Dish> Dishes { get; set; }
