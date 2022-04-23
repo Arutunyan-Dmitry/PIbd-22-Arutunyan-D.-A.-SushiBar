@@ -154,34 +154,5 @@ namespace SushiBarView
             var form = Program.Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
-
-        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                _reportLogic.SaveStorageFacilitiesToWordFile(new ReportBindingModel
-                {
-                    FileName = dialog.FileName
-                });
-                MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-        private void списокИнгредиентовПоСкладамToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormReportStorageFacilityIngredients>();
-            form.ShowDialog();
-        }
-        private void списокКолваЗаказовНаДатуToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormReportOrdersDate>();
-            form.ShowDialog();
-        }
-
-        private void пополнениеСкладаToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormStorageFacilityFill>();
-            form.ShowDialog();
-        }
     }
 }
