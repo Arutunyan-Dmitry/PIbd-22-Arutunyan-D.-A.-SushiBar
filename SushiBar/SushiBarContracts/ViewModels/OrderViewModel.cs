@@ -9,10 +9,13 @@ namespace SushiBarContracts.ViewModels
     public class OrderViewModel
     {
         public int Id { get; set; }
-        public int DishId { get; set; }
         public int ClientId { get; set; }
         [DisplayName("Клиент")]
         public string ClientFLM { get; set; }
+        public int? ImplementerId { get; set; }
+        [DisplayName("Исполнитель")]
+        public string ImplementerFLM { get; set; } 
+        public int DishId { get; set; }
         [DisplayName("Блюдо")]
         public string DishName { get; set; }
         [DisplayName("Количество")]

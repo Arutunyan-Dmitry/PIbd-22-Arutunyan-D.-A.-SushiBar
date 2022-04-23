@@ -10,12 +10,17 @@ namespace SushiBarView
     {
         private readonly IOrderLogic _orderLogic;
         private readonly IReportLogic _reportLogic;
+        private readonly IImplementerLogic _implementerLogic;
+        private readonly IWorkProcess _workProcess;
 
-        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic)
+        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic, 
+            IImplementerLogic implementerLogic, IWorkProcess workProcess)
         {
             InitializeComponent();
             _orderLogic = orderLogic;
             _reportLogic = reportLogic;
+            _implementerLogic = implementerLogic;
+            _workProcess = workProcess;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -32,8 +37,9 @@ namespace SushiBarView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[3].Visible = false;
+                    dataGridView.Columns[5].Visible = false;
+                    dataGridView.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -42,6 +48,7 @@ namespace SushiBarView
             }
         }
 
+        //---------------------------- Справочники -----------------------------------
         private void ингредиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormIngredients>();
@@ -54,51 +61,19 @@ namespace SushiBarView
             form.ShowDialog();
         }
 
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
+        //----------------------------     ***     -----------------------------------
+
+        //---------------------- Кнопки управления заказами --------------------------
         private void buttonCreateOrder_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormCreateOrder>();
             form.ShowDialog();
             LoadData();
-        }
-
-        private void buttonTakeOrderPreparing_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    _orderLogic.TakeOrderPreparing(new ChangeStatusBindingModel
-                    {
-                        OrderId = id
-                    });
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void buttonOrederReady_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    _orderLogic.FinishOrder(new ChangeStatusBindingModel
-                    {
-                        OrderId = id
-                    });
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
         }
 
         private void buttonIssuedOrder_Click(object sender, EventArgs e)
@@ -125,7 +100,9 @@ namespace SushiBarView
         {
             LoadData();
         }
+        //----------------------------     ***     -----------------------------------
 
+        //------------------------------- Отчёты -------------------------------------
         private void списокБлюдToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
@@ -150,11 +127,19 @@ namespace SushiBarView
             var form = Program.Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
+        //----------------------------     ***     -----------------------------------
 
+        //---------------------- Отдельные атрибуты меню -----------------------------
         private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormClients>();
             form.ShowDialog();
         }
+
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _workProcess.DoWork(_implementerLogic, _orderLogic);
+        }
+        //----------------------------     ***     -----------------------------------
     }
 }

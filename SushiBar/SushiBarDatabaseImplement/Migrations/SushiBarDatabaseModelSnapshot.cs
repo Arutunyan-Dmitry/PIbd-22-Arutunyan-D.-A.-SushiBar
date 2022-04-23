@@ -87,6 +87,28 @@ namespace SushiBarDatabaseImplement.Migrations
                     b.ToTable("DishIngredients");
                 });
 
+            modelBuilder.Entity("SushiBarDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImplementerFLM")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PauseTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Implementers");
+                });
+
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.Ingredient", b =>
                 {
                     b.Property<int>("Id")
@@ -125,6 +147,9 @@ namespace SushiBarDatabaseImplement.Migrations
                     b.Property<int>("DishId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ImplementerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -136,6 +161,8 @@ namespace SushiBarDatabaseImplement.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("DishId");
+
+                    b.HasIndex("ImplementerId");
 
                     b.ToTable("Orders");
                 });
@@ -173,9 +200,15 @@ namespace SushiBarDatabaseImplement.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SushiBarDatabaseImplement.Models.Implementer", "Implementer")
+                        .WithMany("Orders")
+                        .HasForeignKey("ImplementerId");
+
                     b.Navigation("Client");
 
                     b.Navigation("Dish");
+
+                    b.Navigation("Implementer");
                 });
 
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.Client", b =>
@@ -187,6 +220,11 @@ namespace SushiBarDatabaseImplement.Migrations
                 {
                     b.Navigation("DishIngredients");
 
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("SushiBarDatabaseImplement.Models.Implementer", b =>
+                {
                     b.Navigation("Orders");
                 });
 
