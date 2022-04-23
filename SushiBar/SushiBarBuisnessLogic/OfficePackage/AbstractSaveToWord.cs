@@ -9,7 +9,7 @@ namespace SushiBarBusinessLogic.OfficePackage
     {
         public void CreateDoc(WordInfo info)
         {
-            CreateWord(info);
+            CreateWord(info.FileName);
             CreateParagraph(new WordParagraph
             {
                 Texts = new List<(string, WordTextProperties)> { (info.Title, new
@@ -35,13 +35,37 @@ namespace SushiBarBusinessLogic.OfficePackage
                     }
                 });
             }
-            SaveWord(info);
+            SaveWord();
+        }
+        public void CreateTableDoc(WordStorageFacilityInfo info)
+        {
+            CreateWord(info.FileName);
+            CreateParagraph(new WordParagraph
+            {
+                Texts = new List<(string, WordTextProperties)> {
+                (info.Title, new WordTextProperties { Bold = true, Size = "24", })},
+                TextProperties = new WordTextProperties
+                {
+                    Size = "24",
+                    JustificationType = WordJustificationType.Center
+                }
+            });
+            CreateTable(new List<string>() { "Название", "ФИО ответственного", "Дата создания" });
+            foreach (var storageFacility in info.StorageFacilities)
+            {
+                CreateRow(new List<string>() {
+                    storageFacility.Name,
+                    storageFacility.OwnerFLM,
+                    storageFacility.DateCreate.ToString()
+                });
+            }
+            SaveWord();
         }
         /// <summary>
         /// Создание doc-файла
         /// </summary>
         /// <param name="info"></param>
-        protected abstract void CreateWord(WordInfo info);
+        protected abstract void CreateWord(string info);
         /// <summary>
         /// Создание абзаца с текстом
         /// </summary>
@@ -49,9 +73,18 @@ namespace SushiBarBusinessLogic.OfficePackage
         /// <returns></returns>
         protected abstract void CreateParagraph(WordParagraph paragraph);
         /// <summary>
+        /// Создание заголовка таблицы с текстом
+        /// </summary>
+        /// <param name="tableHeader"></param>
+        protected abstract void CreateTable(List<string> tableHeader);
+        /// <summary>
+        /// Создание строки таблицы с текстом
+        /// </summary>
+        /// <param name="tableRow"></param>
+        protected abstract void CreateRow(List<string> tableRow);
+        /// <summary>
         /// Сохранение файла
         /// </summary>
-        /// <param name="info"></param>
-        protected abstract void SaveWord(WordInfo info);
+        protected abstract void SaveWord();
     }
 }

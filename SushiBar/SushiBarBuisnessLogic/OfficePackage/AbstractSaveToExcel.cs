@@ -11,7 +11,7 @@ namespace SushiBarBusinessLogic.OfficePackage
         /// <param name="info"></param>
         public void CreateReport(ExcelInfo info)
         {
-            CreateExcel(info);
+            CreateExcel(info.FileName);
             InsertCellInWorksheet(new ExcelCellParameters
             {
                 ColumnName = "A",
@@ -55,6 +55,13 @@ namespace SushiBarBusinessLogic.OfficePackage
                 }
                 InsertCellInWorksheet(new ExcelCellParameters
                 {
+                    ColumnName = "A",
+                    RowIndex = rowIndex,
+                    Text = "Итого:",
+                    StyleInfo = ExcelStyleInfoType.Text
+                });
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
                     ColumnName = "C",
                     RowIndex = rowIndex,
                     Text = di.TotalCount.ToString(),
@@ -62,19 +69,81 @@ namespace SushiBarBusinessLogic.OfficePackage
                 });
                 rowIndex++;
             }
-            SaveExcel(info);
+            SaveExcel();
+        }
+
+        public void CreateStorageFacilityReport(ExcelStorageFacilityInfo info)
+        {
+            CreateExcel(info.FileName);
+            InsertCellInWorksheet(new ExcelCellParameters
+            {
+                ColumnName = "A",
+                RowIndex = 1,
+                Text = info.Title,
+                StyleInfo = ExcelStyleInfoType.Title
+            });
+            MergeCells(new ExcelMergeParameters
+            {
+                CellFromName = "A1",
+                CellToName = "C1"
+            });
+            uint rowIndex = 2;
+            foreach (var si in info.StorageFacilityIngredients)
+            {
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    ColumnName = "A",
+                    RowIndex = rowIndex,
+                    Text = si.StorageFacilityName,
+                    StyleInfo = ExcelStyleInfoType.Text
+                });
+                rowIndex++;
+                foreach (var ingredient in si.Ingredients)
+                {
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        ColumnName = "B",
+                        RowIndex = rowIndex,
+                        Text = ingredient.Item1,
+                        StyleInfo = ExcelStyleInfoType.TextWithBroder
+                    });
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        ColumnName = "C",
+                        RowIndex = rowIndex,
+                        Text = ingredient.Item2.ToString(),
+                        StyleInfo = ExcelStyleInfoType.TextWithBroder
+                    });
+                    rowIndex++;
+                }
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    ColumnName = "A",
+                    RowIndex = rowIndex,
+                    Text = "Итого:",
+                    StyleInfo = ExcelStyleInfoType.Text
+                });
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    ColumnName = "C",
+                    RowIndex = rowIndex,
+                    Text = si.TotalCount.ToString(),
+                    StyleInfo = ExcelStyleInfoType.Text
+                });
+                rowIndex++;
+            }
+            SaveExcel();
         }
         /// <summary>
         /// Создание excel-файла
         /// </summary>
         /// <param name="info"></param>
-        protected abstract void CreateExcel(ExcelInfo info);
+        protected abstract void CreateExcel(string fileName);
         /// <summary>
         /// Добавляем новую ячейку в лист
         /// </summary>
         /// <param name="cellParameters"></param>
-        protected abstract void InsertCellInWorksheet(ExcelCellParameters
-        excelParams);
+        protected abstract void InsertCellInWorksheet(ExcelCellParameters excelParams);
         /// <summary>
         /// Объединение ячеек
         /// </summary>
@@ -83,7 +152,6 @@ namespace SushiBarBusinessLogic.OfficePackage
         /// <summary>
         /// Сохранение файла
         /// </summary>
-        /// <param name="info"></param>
-        protected abstract void SaveExcel(ExcelInfo info);
+        protected abstract void SaveExcel();
     }
 }

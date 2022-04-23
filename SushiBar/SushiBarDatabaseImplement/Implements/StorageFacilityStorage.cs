@@ -152,7 +152,6 @@ namespace SushiBarDatabaseImplement.Implements
         {
             storageFacility.Name = model.Name;
             storageFacility.OwnerFLM = model.OwnerFLM;
-            storageFacility.DateCreate = model.DateCreate;
             if (model.Id.HasValue)
             {
                 var storageFacilityIngredients = context.StorageFacilityIngredients

@@ -197,10 +197,9 @@ namespace SushiBarBusinessLogic.OfficePackage.Implements
                 _ => 0U,
             };
         }
-        protected override void CreateExcel(ExcelInfo info)
+        protected override void CreateExcel(string fileName)
         {
-            _spreadsheetDocument = SpreadsheetDocument.Create(info.FileName,
-           SpreadsheetDocumentType.Workbook);
+            _spreadsheetDocument = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook);
             // Создаем книгу (в ней хранятся листы)
             var workbookpart = _spreadsheetDocument.AddWorkbookPart();
             workbookpart.Workbook = new Workbook();
@@ -297,7 +296,7 @@ namespace SushiBarBusinessLogic.OfficePackage.Implements
             };
             mergeCells.Append(mergeCell);
         }
-        protected override void SaveExcel(ExcelInfo info)
+        protected override void SaveExcel()
         {
             _spreadsheetDocument.WorkbookPart.Workbook.Save();
             _spreadsheetDocument.Close();

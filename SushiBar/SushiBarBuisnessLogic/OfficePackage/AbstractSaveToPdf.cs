@@ -8,7 +8,7 @@ namespace SushiBarBusinessLogic.OfficePackage
     {
         public void CreateDoc(PdfInfo info)
         {
-            CreatePdf(info);
+            CreatePdf();
             CreateParagraph(new PdfParagraph
             {
                 Text = info.Title,
@@ -37,12 +37,45 @@ namespace SushiBarBusinessLogic.OfficePackage
                     ParagraphAlignment = PdfParagraphAlignmentType.Left
                 });
             }
-            SavePdf(info);
+            SavePdf(info.FileName);
         }
-        /// <summary>/// Создание doc-файла
+
+        public void CreateDocOrdersDate(PdfOrdersDateInfo info)
+        {
+            CreatePdf();
+            CreateParagraph(new PdfParagraph
+            {
+                Text = info.Title,
+                Style = "NormalTitle"
+            });
+            CreateParagraph(new PdfParagraph
+            {
+                Text = $"Заказы по всем датам",
+                Style = "Normal"
+            });
+            CreateTable(new List<string> { "8cm", "6cm", "3cm" });
+            CreateRow(new PdfRowParameters
+            {
+                Texts = new List<string> { "Дата заказов", "Количество заказов", "Сумма" },
+                Style = "NormalTitle",
+                ParagraphAlignment = PdfParagraphAlignmentType.Center
+            });
+            foreach (var order in info.OrdersDate)
+            {
+                CreateRow(new PdfRowParameters
+                {
+                    Texts = new List<string> { order.DateCreate.ToShortDateString(), order.Count.ToString(), order.Sum.ToString() },
+                    Style = "Normal",
+                    ParagraphAlignment = PdfParagraphAlignmentType.Left
+                });
+            }
+            SavePdf(info.FileName);
+        }
+
+        /// <summary>
+        /// Создание doc-файла
         /// </summary>
-        /// <param name="info"></param>
-        protected abstract void CreatePdf(PdfInfo info);
+        protected abstract void CreatePdf();
         /// <summary>
         /// Создание параграфа с текстом
         /// </summary>
@@ -63,8 +96,8 @@ namespace SushiBarBusinessLogic.OfficePackage
         /// <summary>
         /// Сохранение файла
         /// </summary>
-        /// <param name="info"></param>
-        protected abstract void SavePdf(PdfInfo info);
+        /// <param name="fileName"></param>
+        protected abstract void SavePdf(string fileName);
     }
 }
 

@@ -44,6 +44,7 @@ namespace SushiBarBusinessLogic.BusinessLogic
             }
             else
             {
+                model.DateCreate = DateTime.Now;
                 _storageFacilityStorage.Insert(model);
             }
         }
