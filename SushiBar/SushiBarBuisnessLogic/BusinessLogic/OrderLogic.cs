@@ -53,10 +53,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
             {
                 throw new Exception("Заказ не находится в статусе \"Принят\" ");
             }
+            if (order.ImplementerId.HasValue)
+            {
+                throw new Exception("У заказа уже есть исполнитель");
+            }
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
                 ClientId = order.ClientId,
+                ImplementerId = model.ImplementerId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -82,7 +87,8 @@ namespace SushiBarBusinessLogic.BusinessLogic
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
-                ClientId= order.ClientId,
+                ClientId = order.ClientId,
+                ImplementerId = model.ImplementerId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -109,6 +115,8 @@ namespace SushiBarBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 DishId = order.DishId,
+                ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
