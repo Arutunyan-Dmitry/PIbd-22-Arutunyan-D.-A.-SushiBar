@@ -14,16 +14,19 @@ namespace SushiBarFileImplement
         private readonly string IngredientFileName = "Ingredient.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string DishFileName = "Dish.xml";
+        private readonly string StorageFacilityFileName = "StorageFacility.xml";
         private readonly string ClientFileName = "Client.xml";
         public List<Ingredient> Ingredients { get; set; }
         public List<Order> Orders { get; set; }
         public List<Dish> Dishes { get; set; }
+        public List<StorageFacility> StorageFacilities { get; set; }
         public List<Client> Clients { get; set; }
         private FileDataListSingleton()
         {
             Ingredients = LoadIngredients();
             Orders = LoadOrders();
             Dishes = LoadDishes();
+            StorageFacilities = LoadStorageFacilities();
             Clients = LoadClients();
         }
         public static FileDataListSingleton GetInstance()
@@ -39,6 +42,7 @@ namespace SushiBarFileImplement
             instance.SaveIngredients();
             instance.SaveDishes();
             instance.SaveOrders();
+            instance.SaveStorageFacilities();
             instance.SaveClients();
         }
         private List<Ingredient> LoadIngredients()
@@ -111,7 +115,36 @@ namespace SushiBarFileImplement
             }
             return list;
         }
+        private List<StorageFacility> LoadStorageFacilities()
+        {
+            var list = new List<StorageFacility>();
+            if (File.Exists(StorageFacilityFileName))
+            {
+                var xDocument = XDocument.Load(StorageFacilityFileName);
+                var xElements = xDocument.Root.Elements("StorageFacility").ToList();
+                foreach (var storagefacility in xElements)
+                {
+                    var storageFacilityIngredients = new Dictionary<int, int>();
+                    foreach (var material in
+                        storagefacility.Element("StorageFacilityIngredients")
+                        .Elements("StorageFacilityIngredient").ToList())
+                    {
+                        storageFacilityIngredients.Add(Convert.ToInt32(material.Element("Key").Value),
+                        Convert.ToInt32(material.Element("Value").Value));
+                    }
 
+                    list.Add(new StorageFacility
+                    {
+                        Id = Convert.ToInt32(storagefacility.Attribute("Id").Value),
+                        Name = storagefacility.Element("Name").Value,
+                        OwnerFLM = storagefacility.Element("OwnerFLM").Value,
+                        DateCreate = Convert.ToDateTime(storagefacility.Element("DateCreate").Value),
+                        StorageFacilityIngredients = storageFacilityIngredients
+                    });
+                }
+            }
+            return list;
+        }
         private List<Client> LoadClients()
         {
             var list = new List<Client>();
@@ -190,6 +223,31 @@ namespace SushiBarFileImplement
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(DishFileName);
+            }
+        }
+        private void SaveStorageFacilities()
+        {
+            if (StorageFacilities != null)
+            {
+                var xElement = new XElement("StorageFacilities");
+                foreach (var storagefacility in StorageFacilities)
+                {
+                    var storageFacilityIngredients = new XElement("StorageFacilityIngredients");
+                    foreach (var dish in storagefacility.StorageFacilityIngredients)
+                    {
+                        storageFacilityIngredients.Add(new XElement("StorageFacilityIngredient",
+                            new XElement("Key", dish.Key),
+                            new XElement("Value", dish.Value)));
+                    }
+                    xElement.Add(new XElement("StorageFacility",
+                        new XAttribute("Id", storagefacility.Id),
+                        new XElement("Name", storagefacility.Name),
+                        new XElement("OwnerFLM", storagefacility.OwnerFLM),
+                        new XElement("DateCreate", storagefacility.DateCreate.ToString()),
+                        storageFacilityIngredients));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(StorageFacilityFileName);
             }
         }
         private void SaveClients()
