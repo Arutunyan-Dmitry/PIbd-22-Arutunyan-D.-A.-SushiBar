@@ -20,5 +20,6 @@ namespace SushiBarDatabaseImplement
         public virtual DbSet<StorageFacility> StorageFacilities { set; get; }
         public virtual DbSet<StorageFacilityIngredient> StorageFacilityIngredients { set; get; }
         public virtual DbSet<Client> Clients { set; get; }
+        public virtual DbSet<Implementer> Implementers { set; get; }
     }
 }
