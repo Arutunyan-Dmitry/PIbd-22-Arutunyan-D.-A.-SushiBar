@@ -192,7 +192,7 @@ namespace SushiBarDatabaseImplement.Implements
                 DateCreate = storageFacility.DateCreate,
                 StorageFacilityIngredients = storageFacility.StorageFacilityIngredients
             .ToDictionary(recSI => recSI.IngredientId,
-            recDI => (recDI.Ingredient?.IngredientName, recDI.Count))
+            recSI => (recSI.Ingredient?.IngredientName, recSI.Count))
             };
         }
     }
