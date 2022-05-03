@@ -13,7 +13,7 @@ namespace SushiBarView
         private readonly IImplementerLogic _implementerLogic;
         private readonly IWorkProcess _workProcess;
 
-        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic,
+        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic, 
             IImplementerLogic implementerLogic, IWorkProcess workProcess)
         {
             InitializeComponent();
