@@ -57,13 +57,9 @@ namespace SushiBarBusinessLogic.BusinessLogic
             {
                 throw new Exception("Заказ не находится в статусе \"Принят\" ");
             }
-            if (!_storageFacilityStorage
-                .TakeIngredientFromStore(_dishStorage.GetElement(new DishBindingModel 
-                { 
-                    Id = order.DishId 
-                }).DishIngredients, order.Count))
+            if (order.ImplementerId.HasValue)
             {
-                throw new Exception("Недостаточно материалов");
+                throw new Exception("У заказа уже есть исполнитель");
             }
             _orderStorage.Update(new OrderBindingModel
             {
