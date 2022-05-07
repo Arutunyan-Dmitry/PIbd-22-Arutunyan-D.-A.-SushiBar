@@ -8,7 +8,7 @@ using SushiBarContracts.StoragesContracts;
 
 namespace SushiBarListImplement.Implements
 {
-    public class StorageFacilityStorage// : IStorageFacilityStorage
+    public class StorageFacilityStorage : IStorageFacilityStorage
     {
         private readonly DataListSingleton source;
 
@@ -59,7 +59,6 @@ namespace SushiBarListImplement.Implements
             }
             return null;
         }
-
         public void Insert(StorageFacilityBindingModel model)
         {
             var tempStorageFacility = new StorageFacility
@@ -106,6 +105,10 @@ namespace SushiBarListImplement.Implements
                 }
             }
             throw new Exception("Склад не найден");
+        }
+        public bool TakeIngredientFromStore(Dictionary<int, (string, int)> ingredients, int dishNumb)
+        {
+            throw new NotImplementedException();
         }
 
         private StorageFacility CreateModel(StorageFacilityBindingModel model, StorageFacility storageFacility)

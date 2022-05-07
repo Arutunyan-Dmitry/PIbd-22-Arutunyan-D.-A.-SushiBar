@@ -32,7 +32,10 @@ namespace SushiBarListImplement.Implements
             var result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
-                if (order.DishId.ToString().Contains(model.DishId.ToString()) || order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                if ((!model.DateFrom.HasValue && !model.DateTo.HasValue && order.DateCreate.Date == model.DateCreate.Date) ||
+            (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date &&
+            order.DateCreate.Date <= model.DateTo.Value.Date) ||
+            (order.ClientId == model.ClientId))
                 {
                     result.Add(CreateModel(order));
                 }
@@ -100,6 +103,7 @@ namespace SushiBarListImplement.Implements
         private static Order CreateModel(OrderBindingModel model, Order order)
         {
             order.DishId = model.DishId;
+            order.ClientId = model.ClientId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -118,10 +122,20 @@ namespace SushiBarListImplement.Implements
                     dishName = dish.DishName;
                 }
             }
+            string clientFLM = string.Empty;
+            foreach (var client in source.Clients)
+            {
+                if (client.Id == order.ClientId)
+                {
+                    clientFLM = client.ClientFLM;
+                }
+            }
             return new OrderViewModel
             {
                 Id = order.Id,
                 DishId = order.DishId,
+                ClientId = order.ClientId,
+                ClientFLM = clientFLM,
                 DishName = dishName,               
                 Count = order.Count,
                 Sum = order.Sum,

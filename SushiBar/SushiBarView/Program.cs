@@ -46,7 +46,9 @@ namespace SushiBarView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDishStorage, DishStorage>(new
             HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IStorageFacilityStorage, StorageFacilityStorage>(new 
+            currentContainer.RegisterType<IStorageFacilityStorage, StorageFacilityStorage>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IClientStorage, ClientStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IIngredientLogic, IngredientLogic>(new
             HierarchicalLifetimeManager());
@@ -57,6 +59,8 @@ namespace SushiBarView
             currentContainer.RegisterType<IStorageFacilityLogic, StorageFacilityLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IReportLogic, ReportLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IClientLogic, ClientLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new
             HierarchicalLifetimeManager());

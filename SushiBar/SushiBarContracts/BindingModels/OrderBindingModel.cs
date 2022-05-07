@@ -10,6 +10,8 @@ namespace SushiBarContracts.BindingModels
     {
         public int? Id { get; set; }
         public int DishId { get; set; }
+        public int ClientId { get; set; }
+        public int ClientFLM { get; set; }
         public int Count { get; set; }
         public decimal Sum { get; set; }
         public OrderStatus Status { get; set; }

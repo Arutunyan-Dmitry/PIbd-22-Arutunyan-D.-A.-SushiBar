@@ -32,6 +32,7 @@ namespace SushiBarView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
+                    dataGridView.Columns[2].Visible = false;
                     dataGridView.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
@@ -41,13 +42,31 @@ namespace SushiBarView
             }
         }
 
+        //---------------------------- Справочники -----------------------------------
+        private void ингредиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormIngredients>();
+            form.ShowDialog();
+        }
+        private void блюдаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormDishes>();
+            form.ShowDialog();
+        }
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormStorageFacilities>();
+            form.ShowDialog();
+        }
+        //----------------------------     ***     -----------------------------------
+
+        //---------------------- Кнопки управления заказами --------------------------
         private void buttonCreateOrder_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormCreateOrder>();
             form.ShowDialog();
             LoadData();
         }
-
         private void buttonTakeOrderPreparing_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
@@ -67,7 +86,6 @@ namespace SushiBarView
                 }
             }
         }
-
         private void buttonOrederReady_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
@@ -87,7 +105,6 @@ namespace SushiBarView
                 }
             }
         }
-
         private void buttonIssuedOrder_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
@@ -111,25 +128,9 @@ namespace SushiBarView
         {
             LoadData();
         }
+        //----------------------------     ***     -----------------------------------
 
-        private void ингредиентыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormIngredients>();
-            form.ShowDialog();
-        }
-
-        private void блюдаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormDishes>();
-            form.ShowDialog();
-        }
-
-        private void складыToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormStorageFacilities>();
-            form.ShowDialog();
-        }
-
+        //------------------------------- Отчёты -------------------------------------
         private void списокБлюдToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
@@ -142,19 +143,16 @@ namespace SushiBarView
                 MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
         private void списокИнгредиентовПоБлюдамToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportDishIngredients>();
             form.ShowDialog();
         }
-
         private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
-
         private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
@@ -177,11 +175,19 @@ namespace SushiBarView
             var form = Program.Container.Resolve<FormReportOrdersDate>();
             form.ShowDialog();
         }
+        //----------------------------     ***     -----------------------------------
 
-        private void пополнениеСкладаToolStripMenuItem_Click_1(object sender, EventArgs e)
+        //---------------------- Отдельные атрибуты меню -----------------------------
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormClients>();
+            form.ShowDialog();
+        }
+        private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormStorageFacilityFill>();
             form.ShowDialog();
         }
+        //----------------------------     ***     -----------------------------------
     }
 }
