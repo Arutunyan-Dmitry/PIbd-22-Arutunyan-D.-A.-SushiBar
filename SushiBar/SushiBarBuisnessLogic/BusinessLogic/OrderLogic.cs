@@ -5,15 +5,20 @@ using SushiBarContracts.ViewModels;
 using SushiBarContracts.Enums;
 using System;
 using System.Collections.Generic;
+using SushiBarBusinessLogic.MailWorker;
 
 namespace SushiBarBusinessLogic.BusinessLogic
 {
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly IClientStorage _clientStorage;
+        private readonly AbstractMailWorker _mailWorker;
+        public OrderLogic(IOrderStorage orderStorage, IClientStorage clientStorage, AbstractMailWorker mailWorker)
         {
             _orderStorage = orderStorage;
+            _clientStorage = clientStorage;
+            _mailWorker = mailWorker;
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
@@ -37,6 +42,16 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = model.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ принят. Дата создания заказа: {DateTime.Now.ToShortTimeString()}. " +
+                $"Сумма заказа: {model.Sum}"
             });
         }
         public void TakeOrderPreparing(ChangeStatusBindingModel model)
@@ -69,6 +84,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Готовится
             });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ №{order.Id} был передан на выполнение."
+            });
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {
@@ -96,6 +120,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Готов
             });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ №{order.Id} готов."
+            });
         }
         public void DeliveryOrder(ChangeStatusBindingModel model)
         {
@@ -122,6 +155,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Выдан
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ №{order.Id} выдан."
             });
         }
     }

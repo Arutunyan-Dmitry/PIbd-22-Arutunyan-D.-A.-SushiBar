@@ -140,6 +140,12 @@ namespace SushiBarView
         {
             _workProcess.DoWork(_implementerLogic, _orderLogic);
         }
+
+        private void письменаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormMails>();
+            form.ShowDialog();
+        }
         //----------------------------     ***     -----------------------------------
     }
 }

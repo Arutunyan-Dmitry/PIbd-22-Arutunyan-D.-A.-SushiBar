@@ -136,5 +136,15 @@ namespace SushiBarClientApp.Controllers
             DishViewModel prod = APIClient.GetRequest<DishViewModel>($"api/main/getdish?dishId={dish}");
             return count * prod.Price;
         }
+
+        public IActionResult Mails()
+        {
+            if (Program.Client == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
+            return View(APIClient.GetRequest<List<MessageInfoViewModel>>
+                ($"api/main/GetMessage?clientId={Program.Client.Id}"));
+        }
     }
 }
