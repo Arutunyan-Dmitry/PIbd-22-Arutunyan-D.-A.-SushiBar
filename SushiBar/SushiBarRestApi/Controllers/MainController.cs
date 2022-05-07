@@ -13,8 +13,10 @@ namespace SushiBarRestApi.Controllers
     {
         private readonly IOrderLogic _order;
         private readonly IDishLogic _dish;
-        public MainController(IOrderLogic order, IDishLogic dish)
+        private readonly IMessageInfoLogic _messageInfo;
+        public MainController(IOrderLogic order, IDishLogic dish, IMessageInfoLogic messageInfo)
         {
+            _messageInfo = messageInfo;
             _order = order;
             _dish = dish;
         }
@@ -28,5 +30,11 @@ namespace SushiBarRestApi.Controllers
         { ClientId = clientId });
         [HttpPost]
         public void CreateOrder(CreateOrderBindingModel model) => _order.CreateOrder(model);
+        [HttpGet]
+        public List<MessageInfoViewModel> GetMessage(int clientId) =>
+           _messageInfo.Read(new MessageInfoBindingModel
+          {
+              ClientId = clientId
+          });
     }
 }
