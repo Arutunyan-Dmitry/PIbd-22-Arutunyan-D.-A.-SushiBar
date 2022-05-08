@@ -45,7 +45,7 @@ namespace SushiBarBusinessLogic.BusinessLogic
         }
         public void TakeOrderPreparing(ChangeStatusBindingModel model)
         {
-            var order = _orderStorage.GetElement(new OrderBindingModel 
+            var order = _orderStorage.GetElement(new OrderBindingModel
             {
                 Id = model.OrderId
             });
@@ -53,29 +53,35 @@ namespace SushiBarBusinessLogic.BusinessLogic
             {
                 throw new Exception("Заказ не найден");
             }
-            if (!order.Status.Equals("Принят"))
+            if (!order.Status.Equals("Принят") && !order.Status.Equals("Требуются_материалы"))
             {
                 throw new Exception("Заказ не находится в статусе \"Принят\" ");
             }
-            if (!_storageFacilityStorage
-                .TakeIngredientFromStore(_dishStorage.GetElement(new DishBindingModel 
-                { 
-                    Id = order.DishId 
-                }).DishIngredients, order.Count))
-            {
-                throw new Exception("Недостаточно материалов");
-            }
-            _orderStorage.Update(new OrderBindingModel
+            var updateBindingModel = new OrderBindingModel
             {
                 Id = order.Id,
-                ClientId = order.ClientId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Готовится
-            });
+                ClientId = order.ClientId
+            };
+
+            if (!_storageFacilityStorage
+                .TakeIngredientFromStore(_dishStorage.GetElement(new DishBindingModel
+                {
+                    Id = order.DishId
+                }).DishIngredients, order.Count))
+            {
+                updateBindingModel.Status = OrderStatus.Требуются_материалы;
+            }
+            else
+            {
+                updateBindingModel.DateImplement = DateTime.Now;
+                updateBindingModel.Status = OrderStatus.Готовится;
+                updateBindingModel.ImplementerId = model.ImplementerId;
+            }
+            _orderStorage.Update(updateBindingModel);
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {
@@ -94,7 +100,8 @@ namespace SushiBarBusinessLogic.BusinessLogic
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
-                ClientId= order.ClientId,
+                ClientId = order.ClientId,
+                ImplementerId = model.ImplementerId,
                 DishId = order.DishId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -121,6 +128,8 @@ namespace SushiBarBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 DishId = order.DishId,
+                ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
