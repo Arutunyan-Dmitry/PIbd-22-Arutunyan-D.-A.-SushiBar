@@ -113,7 +113,7 @@ namespace SushiBarDatabaseImplement.Implements
             using var transaction = context.Database.BeginTransaction();
             try
             {
-                foreach (KeyValuePair<int, (string, int)> ingredient in ingredients)
+                foreach (var ingredient in ingredients)
                 {
                     int requiredIngredientCount = ingredient.Value.Item2 * dishNumb;
                     var storageFacilityIngredients = context.StorageFacilityIngredients
@@ -145,7 +145,7 @@ namespace SushiBarDatabaseImplement.Implements
             catch
             {
                 transaction.Rollback();
-                throw;
+                return false;
             }
         }
         private static StorageFacility CreateModel(StorageFacilityBindingModel model, StorageFacility storageFacility, SushiBarDatabase context)

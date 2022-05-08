@@ -1,4 +1,6 @@
-﻿namespace SushiBarContracts.BuisnessLogicContracts
+﻿using SushiBarContracts.StoragesContracts;
+
+namespace SushiBarContracts.BuisnessLogicContracts
 {
     public interface IWorkProcess
     {

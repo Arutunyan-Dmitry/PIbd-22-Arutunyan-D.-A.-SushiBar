@@ -37,7 +37,8 @@ namespace SushiBarDatabaseImplement.Implements
                       (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
                       (rec.ClientId == model.ClientId) ||
                       (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status) ||
-                      (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
+                      (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status) ||
+                      (rec.Status == model.Status ))
                 .ToList()
                 .Select(CreateModel)
                 .ToList();

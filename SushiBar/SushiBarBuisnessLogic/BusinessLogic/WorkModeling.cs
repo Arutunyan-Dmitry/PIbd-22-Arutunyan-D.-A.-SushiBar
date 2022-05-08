@@ -26,7 +26,7 @@ namespace SushiBarBusinessLogic.BusinessLogic
             var implementers = implementerLogic.Read(null);
             ConcurrentBag<OrderViewModel> orders = new(_orderLogic.Read(new OrderBindingModel
             { 
-                SearchStatus = OrderStatus.Принят 
+                SearchStatus = OrderStatus.Принят
             }));
             foreach (var implementer in implementers)
             {
@@ -56,6 +56,44 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 // отдыхаем
                 Thread.Sleep(implementer.PauseTime);
             }
+            // ищем заказы, у которых требуются материалы, вдруг их уже подвезли
+            var requiredIngredientsOrders = await Task.Run(() => _orderLogic.Read(new OrderBindingModel
+            {
+                ImplementerId = implementer.Id,
+                Status = OrderStatus.Требуются_материалы
+            }));
+            foreach (var order in requiredIngredientsOrders)
+            {
+                try
+                {
+                    // Пытаемся назначить заказ на исполнителя и отдаём заказ на проверку материалов,
+                    // вдруг их уже подвезли
+                    _orderLogic.TakeOrderPreparing(new ChangeStatusBindingModel
+                    {
+                        OrderId = order.Id,
+                        ImplementerId = implementer.Id
+                    });
+                    var processedOrder = _orderLogic.Read(new OrderBindingModel
+                    {
+                        Id = order.Id,
+                    })?[0];
+                    // Если материалы не подвезли, пропустим
+                    if (processedOrder.Status.Equals("Требуются_материалы"))
+                    {
+                        continue;
+                    }
+                    // делаем работу заново
+                    Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
+                    _orderLogic.FinishOrder(new ChangeStatusBindingModel 
+                    { 
+                        OrderId = order.Id,
+                        ImplementerId = implementer.Id
+                    });
+                    // отдыхаем
+                    Thread.Sleep(implementer.PauseTime);
+                }
+                catch (Exception) { }
+            }
             await Task.Run(() =>
             {
                 while (!orders.IsEmpty)
@@ -68,6 +106,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
                             OrderId = order.Id, 
                             ImplementerId = implementer.Id 
                         });
+                        var processedOrder = _orderLogic.Read(new OrderBindingModel
+                        {
+                            Id = order.Id,
+                        })?[0];
+                        // Если материалы не подвезли, пропустим
+                        if (processedOrder.Status.Equals("Требуются_материалы"))
+                        {
+                            continue;
+                        }
                         // делаем работу
                         Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
                         _orderLogic.FinishOrder(new ChangeStatusBindingModel
