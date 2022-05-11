@@ -4,12 +4,9 @@ using SushiBarContracts.StoragesContracts;
 using SushiBarDatabaseImplement.Implements;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using SushiBarBusinessLogic.MailWorker;
@@ -67,6 +64,16 @@ namespace SushiBarRestApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            var mailSender = app.ApplicationServices.GetService<AbstractMailWorker>();
+            mailSender.MailConfig(new MailConfigBindingModel
+            {
+                MailLogin = Configuration?.GetSection("MailLogin")?.Value.ToString(),
+                MailPassword = Configuration?.GetSection("MailPassword")?.Value.ToString(),
+                SmtpClientHost = Configuration?.GetSection("SmtpClientHost")?.Value.ToString(),
+                SmtpClientPort = Convert.ToInt32(Configuration?.GetSection("SmtpClientPort")?.Value.ToString()),
+                PopHost = Configuration?.GetSection("PopHost")?.Value.ToString(),
+                PopPort = Convert.ToInt32(Configuration?.GetSection("PopPort")?.Value.ToString())
             });
         }
     }

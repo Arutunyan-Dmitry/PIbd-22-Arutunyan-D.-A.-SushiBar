@@ -35,7 +35,8 @@ namespace SushiBarListImplement.Implements
                 if ((!model.DateFrom.HasValue && !model.DateTo.HasValue && order.DateCreate.Date == model.DateCreate.Date) ||
             (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date &&
             order.DateCreate.Date <= model.DateTo.Value.Date) ||
-            (order.ClientId == model.ClientId))
+            (order.ClientId == model.ClientId) || (model.SearchStatus.HasValue && model.SearchStatus.Value == order.Status) ||
+            (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && model.Status == order.Status))
                 {
                     result.Add(CreateModel(order));
                 }
@@ -50,7 +51,8 @@ namespace SushiBarListImplement.Implements
             }
             foreach (var order in source.Orders)
             {
-                if (order.Id == model.Id || order.DishId == model.DishId)
+                if (order.Id == model.Id || order.DishId == model.DishId || order.ClientId == model.ClientId ||
+                    order.ImplementerId == model.ImplementerId)
                 {
                     return CreateModel(order);
                 }
@@ -104,6 +106,7 @@ namespace SushiBarListImplement.Implements
         {
             order.DishId = model.DishId;
             order.ClientId = model.ClientId;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -120,6 +123,7 @@ namespace SushiBarListImplement.Implements
                 if (dish.Id == order.DishId)
                 {
                     dishName = dish.DishName;
+                    break;
                 }
             }
             string clientFLM = string.Empty;
@@ -128,6 +132,16 @@ namespace SushiBarListImplement.Implements
                 if (client.Id == order.ClientId)
                 {
                     clientFLM = client.ClientFLM;
+                    break;
+                }
+            }
+            string implementerFLM = string.Empty;
+            foreach (var implementer in source.Implementers)
+            {
+                if (implementer.Id == order.ImplementerId)
+                {
+                    implementerFLM = implementer.ImplementerFLM;
+                    break;
                 }
             }
             return new OrderViewModel
@@ -135,6 +149,8 @@ namespace SushiBarListImplement.Implements
                 Id = order.Id,
                 DishId = order.DishId,
                 ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
+                ImplementerFLM = implementerFLM,
                 ClientFLM = clientFLM,
                 DishName = dishName,               
                 Count = order.Count,

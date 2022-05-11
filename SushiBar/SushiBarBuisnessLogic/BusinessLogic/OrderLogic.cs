@@ -5,6 +5,7 @@ using SushiBarContracts.ViewModels;
 using SushiBarContracts.Enums;
 using System;
 using System.Collections.Generic;
+using SushiBarBusinessLogic.MailWorker;
 
 namespace SushiBarBusinessLogic.BusinessLogic
 {
@@ -41,6 +42,16 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = model.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ принят. Дата создания заказа: {DateTime.Now.ToShortTimeString()}. " +
+                $"Сумма заказа: {model.Sum}"
             });
         }
         public void TakeOrderPreparing(ChangeStatusBindingModel model)
@@ -103,6 +114,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Готов
             });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ №{order.Id} готов."
+            });
         }
         public void DeliveryOrder(ChangeStatusBindingModel model)
         {
@@ -129,6 +149,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Выдан
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ №{order.Id} выдан."
             });
         }
     }

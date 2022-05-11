@@ -8,6 +8,10 @@ using SushiBarBusinessLogic.BusinessLogic;
 using SushiBarDatabaseImplement.Implements;
 using SushiBarBusinessLogic.OfficePackage;
 using SushiBarBusinessLogic.OfficePackage.Implements;
+using SushiBarBusinessLogic.MailWorker;
+using SushiBarContracts.BindingModels;
+using System.Configuration;
+using System.Threading;
 
 namespace SushiBarView
 {
@@ -30,12 +34,24 @@ namespace SushiBarView
         /// </summary>
         [STAThread]
         static void Main()
-        {           
+        {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            var mailSender = Container.Resolve<AbstractMailWorker>();
+            mailSender.MailConfig(new MailConfigBindingModel
+            {
+                MailLogin = ConfigurationManager.AppSettings["MailLogin"],
+                MailPassword = ConfigurationManager.AppSettings["MailPassword"],
+                SmtpClientHost = ConfigurationManager.AppSettings["SmtpClientHost"],
+                SmtpClientPort = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpClientPort"]),
+                PopHost = ConfigurationManager.AppSettings["PopHost"],
+                PopPort = Convert.ToInt32(ConfigurationManager.AppSettings["PopPort"])
+            });
+            // создаем таймер
+            var timer = new System.Threading.Timer(new TimerCallback(MailCheck), null, 0, 100000);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(Container.Resolve<FormMain>());
-         }
+        }
 
         private static IUnityContainer BuildUnityContainer()
         {
@@ -52,6 +68,9 @@ namespace SushiBarView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IImplementerStorage, ImplementerStorage>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IMessageInfoStorage, MessageInfoStorage>(new
+            HierarchicalLifetimeManager());
+
             currentContainer.RegisterType<IIngredientLogic, IngredientLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
@@ -66,6 +85,9 @@ namespace SushiBarView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IImplementerLogic, ImplementerLogic>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IMessageInfoLogic, MessageInfoLogic>(new 
+            HierarchicalLifetimeManager());
+
             currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<AbstractSaveToWord, SaveToWord>(new
@@ -74,7 +96,12 @@ namespace SushiBarView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IWorkProcess, WorkModeling>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractMailWorker, MailKitWorker>(new
+            SingletonLifetimeManager());
+
             return currentContainer;
         }
+
+        private static void MailCheck(object obj) => Container.Resolve<AbstractMailWorker>().MailCheck();
     }
 }
