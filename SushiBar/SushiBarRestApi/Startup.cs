@@ -12,10 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using M6T.Core.TupleModelBinder;
+using SushiBarBusinessLogic.MailWorker;
+using SushiBarContracts.BindingModels;
 
 namespace SushiBarRestApi
 {
@@ -35,13 +33,15 @@ namespace SushiBarRestApi
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IIngredientStorage, IngredientStorage>();
             services.AddTransient<IDishStorage, DishStorage>();
-            services.AddTransient<IStorageFacilityStorage, StorageFacilityStorage>();
+            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
 
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IIngredientLogic, IngredientLogic>();
             services.AddTransient<IDishLogic, DishLogic>();
-            services.AddTransient<IStorageFacilityLogic, StorageFacilityLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
+            
+            services.AddSingleton<AbstractMailWorker, MailKitWorker>();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>

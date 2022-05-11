@@ -160,9 +160,10 @@ namespace SushiBarView
         {
             _workProcess.DoWork(_implementerLogic, _orderLogic);
         }
-        private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void письменаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Program.Container.Resolve<FormStorageFacilityFill>();
+            var form = Program.Container.Resolve<FormMails>();
             form.ShowDialog();
         }
         //----------------------------     ***     -----------------------------------

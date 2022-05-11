@@ -125,6 +125,33 @@ namespace SushiBarDatabaseImplement.Migrations
                     b.ToTable("Ingredients");
                 });
 
+            modelBuilder.Entity("SushiBarDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateDelivery")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("MessageInfos");
+                });
+
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -167,54 +194,6 @@ namespace SushiBarDatabaseImplement.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("SushiBarDatabaseImplement.Models.StorageFacility", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerFLM")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StorageFacilities");
-                });
-
-            modelBuilder.Entity("SushiBarDatabaseImplement.Models.StorageFacilityIngredient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IngredientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StorageFacilityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IngredientId");
-
-                    b.HasIndex("StorageFacilityId");
-
-                    b.ToTable("StorageFacilityIngredients");
-                });
-
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.DishIngredient", b =>
                 {
                     b.HasOne("SushiBarDatabaseImplement.Models.Dish", "Dish")
@@ -232,6 +211,15 @@ namespace SushiBarDatabaseImplement.Migrations
                     b.Navigation("Dish");
 
                     b.Navigation("Ingredient");
+                });
+
+            modelBuilder.Entity("SushiBarDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.HasOne("SushiBarDatabaseImplement.Models.Client", "Client")
+                        .WithMany("MessageInfos")
+                        .HasForeignKey("ClientId");
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.Order", b =>
@@ -259,27 +247,10 @@ namespace SushiBarDatabaseImplement.Migrations
                     b.Navigation("Implementer");
                 });
 
-            modelBuilder.Entity("SushiBarDatabaseImplement.Models.StorageFacilityIngredient", b =>
-                {
-                    b.HasOne("SushiBarDatabaseImplement.Models.Ingredient", "Ingredient")
-                        .WithMany("StorageFacilityIngredients")
-                        .HasForeignKey("IngredientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SushiBarDatabaseImplement.Models.StorageFacility", "StorageFacility")
-                        .WithMany("StorageFacilityIngredients")
-                        .HasForeignKey("StorageFacilityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ingredient");
-
-                    b.Navigation("StorageFacility");
-                });
-
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.Client", b =>
                 {
+                    b.Navigation("MessageInfos");
+
                     b.Navigation("Orders");
                 });
 
@@ -298,13 +269,6 @@ namespace SushiBarDatabaseImplement.Migrations
             modelBuilder.Entity("SushiBarDatabaseImplement.Models.Ingredient", b =>
                 {
                     b.Navigation("DishIngredients");
-
-                    b.Navigation("StorageFacilityIngredients");
-                });
-
-            modelBuilder.Entity("SushiBarDatabaseImplement.Models.StorageFacility", b =>
-                {
-                    b.Navigation("StorageFacilityIngredients");
                 });
 #pragma warning restore 612, 618
         }

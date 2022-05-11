@@ -11,13 +11,13 @@ namespace SushiBarBusinessLogic.BusinessLogic
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        private readonly IDishStorage _dishStorage;
-        private readonly IStorageFacilityStorage _storageFacilityStorage;
-        public OrderLogic(IOrderStorage orderStorage, IDishStorage dishStorage, IStorageFacilityStorage storageFacilityStorage)
+        private readonly IClientStorage _clientStorage;
+        private readonly AbstractMailWorker _mailWorker;
+        public OrderLogic(IOrderStorage orderStorage, IClientStorage clientStorage, AbstractMailWorker mailWorker)
         {
             _orderStorage = orderStorage;
-            _dishStorage = dishStorage;
-            _storageFacilityStorage = storageFacilityStorage;
+            _clientStorage = clientStorage;
+            _mailWorker = mailWorker;
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
@@ -64,24 +64,18 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
-                ClientId = order.ClientId
-            };
-
-            if (!_storageFacilityStorage
-                .TakeIngredientFromStore(_dishStorage.GetElement(new DishBindingModel
+                DateImplement = DateTime.Now,
+                Status = OrderStatus.Готовится
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
                 {
-                    Id = order.DishId
-                }).DishIngredients, order.Count))
-            {
-                updateBindingModel.Status = OrderStatus.Требуются_материалы;
-            }
-            else
-            {
-                updateBindingModel.DateImplement = DateTime.Now;
-                updateBindingModel.Status = OrderStatus.Готовится;
-                updateBindingModel.ImplementerId = model.ImplementerId;
-            }
-            _orderStorage.Update(updateBindingModel);
+                    Id = order.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ №{order.Id} был передан на выполнение."
+            });
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {
