@@ -64,11 +64,11 @@ namespace SushiBarView
             var form = Program.Container.Resolve<FormImplementers>();
             form.ShowDialog();
         }
-        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        private void складыToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormStorageFacilities>();
             form.ShowDialog();
-        }
+        }       
         //----------------------------     ***     -----------------------------------
 
         //---------------------- Кнопки управления заказами --------------------------
@@ -126,7 +126,7 @@ namespace SushiBarView
             var form = Program.Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
-        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        private void списокСкладовToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -138,12 +138,12 @@ namespace SushiBarView
                 MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        private void списокИнгредиентовПоСкладамToolStripMenuItem_Click(object sender, EventArgs e)
+        private void списокИнгредиентовПоСкладамToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportStorageFacilityIngredients>();
             form.ShowDialog();
         }
-        private void списокКолваЗаказовНаДатуToolStripMenuItem_Click(object sender, EventArgs e)
+        private void списокКолваЗаказовНаДатуToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportOrdersDate>();
             form.ShowDialog();
@@ -160,10 +160,14 @@ namespace SushiBarView
         {
             _workProcess.DoWork(_implementerLogic, _orderLogic);
         }
-
         private void письменаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormMails>();
+            form.ShowDialog();
+        }
+        private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormStorageFacilityFill>();
             form.ShowDialog();
         }
         //----------------------------     ***     -----------------------------------
