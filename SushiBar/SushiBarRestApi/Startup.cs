@@ -43,14 +43,10 @@ namespace SushiBarRestApi
             
             services.AddSingleton<AbstractMailWorker, MailKitWorker>();
 
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SushiBarRestApi", Version = "v1" });
-            });
-            services.AddMvc(options =>
-            {
-                options.ModelBinderProviders.Insert(0, new TupleModelBinderProvider());
             });
         }
 
