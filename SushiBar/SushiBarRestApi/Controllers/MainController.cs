@@ -14,11 +14,14 @@ namespace SushiBarRestApi.Controllers
         private readonly IOrderLogic _order;
         private readonly IDishLogic _dish;
         private readonly IMessageInfoLogic _messageInfo;
+        private readonly int mailsOnPage = 2;
+        private int NumOfPages;
         public MainController(IOrderLogic order, IDishLogic dish, IMessageInfoLogic messageInfo)
         {
             _messageInfo = messageInfo;
             _order = order;
             _dish = dish;
+            if (mailsOnPage < 1) { mailsOnPage = 5; }
         }
         [HttpGet]
         public List<DishViewModel> GetDishList() => _dish.Read(null)?.ToList();
@@ -31,10 +34,14 @@ namespace SushiBarRestApi.Controllers
         [HttpPost]
         public void CreateOrder(CreateOrderBindingModel model) => _order.CreateOrder(model);
         [HttpGet]
-        public List<MessageInfoViewModel> GetMessage(int clientId) =>
-           _messageInfo.Read(new MessageInfoBindingModel
-          {
-              ClientId = clientId
-          });
+        public (List<MessageInfoViewModel>, int) GetMessage(int clientId, int page)
+        {
+            var fullList = _messageInfo.Read(null);
+            NumOfPages = fullList.Count / mailsOnPage;
+            if (fullList.Count % mailsOnPage != 0) { NumOfPages++; }
+
+            var list = _messageInfo.Read(new MessageInfoBindingModel { ClientId = clientId, ToSkip = (page - 1) * mailsOnPage, ToTake = mailsOnPage }).ToList();
+            return (list.Take(mailsOnPage).ToList(), NumOfPages);
+        }
     }
 }

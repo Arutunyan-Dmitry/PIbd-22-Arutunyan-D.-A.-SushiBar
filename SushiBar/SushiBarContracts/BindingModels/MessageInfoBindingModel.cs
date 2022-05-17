@@ -13,5 +13,9 @@ namespace SushiBarContracts.BindingModels
         public string Subject { get; set; }
         public string Body { get; set; }
         public DateTime DateDelivery { get; set; }
+        public bool IsRead { get; set; }
+        public string Request { get; set; }
+        public int? ToSkip { get; set; }
+        public int? ToTake { get; set; }
     }
 }

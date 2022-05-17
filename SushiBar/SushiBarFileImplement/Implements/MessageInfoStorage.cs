@@ -1,19 +1,24 @@
 ﻿using SushiBarContracts.BindingModels;
-using SushiBarContracts.ViewModels;
-using SushiBarDatabaseImplement.Models;
 using SushiBarContracts.StoragesContracts;
+using SushiBarContracts.ViewModels;
+using SushiBarFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SushiBarDatabaseImplement.Implements
+namespace SushiBarFileImplement.Implements
 {
     public class MessageInfoStorage : IMessageInfoStorage
     {
+        private readonly FileDataListSingleton source;
+
+        public MessageInfoStorage()
+        {
+            source = FileDataListSingleton.GetInstance();
+        }
         public List<MessageInfoViewModel> GetFullList()
         {
-            using var context = new SushiBarDatabase();
-            return context.MessageInfos
+            return source.MessageInfos
             .Select(rec => new MessageInfoViewModel
             {
                 MessageId = rec.MessageId,
@@ -32,10 +37,9 @@ namespace SushiBarDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new SushiBarDatabase();
             if (model.ToSkip.HasValue && model.ToTake.HasValue && !model.ClientId.HasValue)
             {
-                return context.MessageInfos.Skip((int)model.ToSkip).Take((int)model.ToTake)
+                return source.MessageInfos.Skip((int)model.ToSkip).Take((int)model.ToTake)
                 .Select(rec => new MessageInfoViewModel
                 {
                     MessageId = rec.MessageId,
@@ -47,12 +51,12 @@ namespace SushiBarDatabaseImplement.Implements
                     Request = rec.Request,
                 }).ToList();
             }
-            return context.MessageInfos
+            return source.MessageInfos
             .Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
-            (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date) || 
+            (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date) ||
             (model.MessageId != null && rec.MessageId.Equals(model.MessageId)))
             .Skip(model.ToSkip ?? 0)
-            .Take(model.ToTake ?? context.MessageInfos.Count())
+            .Take(model.ToTake ?? source.MessageInfos.Count())
             .Select(rec => new MessageInfoViewModel
             {
                 MessageId = rec.MessageId,
@@ -67,13 +71,12 @@ namespace SushiBarDatabaseImplement.Implements
         }
         public void Insert(MessageInfoBindingModel model)
         {
-            using var context = new SushiBarDatabase();
-            MessageInfo element = context.MessageInfos.FirstOrDefault(rec => rec.MessageId == model.MessageId);
+            var element = source.MessageInfos.FirstOrDefault(rec => rec.MessageId == model.MessageId);
             if (element != null)
             {
                 throw new Exception("Уже есть письмо с таким идентификатором");
             }
-            context.MessageInfos.Add(new MessageInfo
+            source.MessageInfos.Add(new MessageInfo
             {
                 MessageId = model.MessageId,
                 ClientId = model.ClientId,
@@ -84,20 +87,17 @@ namespace SushiBarDatabaseImplement.Implements
                 Body = model.Body,
                 Request = model.Request,
             });
-            context.SaveChanges();
         }
 
         public void Update(MessageInfoBindingModel model)
         {
-            using var context = new SushiBarDatabase();
-            var element = context.MessageInfos.FirstOrDefault(rec => rec.MessageId == model.MessageId);
+            var element = source.MessageInfos.FirstOrDefault(rec => rec.MessageId == model.MessageId);
             if (element == null)
             {
                 throw new Exception("Письмо не найдено");
             }
             element.IsRead = model.IsRead;
             element.Request = model.Request;
-            context.SaveChanges();
         }
     }
 }

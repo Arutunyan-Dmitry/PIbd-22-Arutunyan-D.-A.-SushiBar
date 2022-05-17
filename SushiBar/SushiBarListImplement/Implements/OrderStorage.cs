@@ -136,14 +136,18 @@ namespace SushiBarListImplement.Implements
                 }
             }
             string implementerFLM = string.Empty;
-            foreach (var implementer in source.Implementers)
+            if (order.ImplementerId != null)
             {
-                if (implementer.Id == order.ImplementerId)
+                foreach (var implementer in source.Implementers)
                 {
-                    implementerFLM = implementer.ImplementerFLM;
-                    break;
+                    if (implementer.Id == order.ImplementerId)
+                    {
+                        implementerFLM = implementer.ImplementerFLM;
+                        break;
+                    }
                 }
             }
+            
             return new OrderViewModel
             {
                 Id = order.Id,

@@ -93,7 +93,7 @@ namespace SushiBarFileImplement.Implements
                 ClientId = order.ClientId,
                 ClientFLM = source.Clients.FirstOrDefault(rec => rec.Id == order.ClientId)?.ClientFLM,
                 ImplementerId = order.ImplementerId,
-                ImplementerFLM = source.Implementers.FirstOrDefault(rec => rec.Id == order.ImplementerId)?.ImplementerFLM,
+                ImplementerFLM = order.ImplementerId.HasValue ? source.Implementers.FirstOrDefault(rec => rec.Id == order.ImplementerId)?.ImplementerFLM : string.Empty,
                 DishName = source.Dishes.FirstOrDefault(rec => rec.Id == order.DishId)?.DishName,               
                 Count = order.Count,
                 Sum = order.Sum,

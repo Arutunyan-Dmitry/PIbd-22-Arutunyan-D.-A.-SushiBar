@@ -1,14 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace SushiBarDatabaseImplement.Models
+namespace SushiBarFileImplement.Models
 {
-    /// <summary>
-    /// Сообщения, приходящие на почту
-    /// </summary>
     public class MessageInfo
     {
-        [Key]
         public string MessageId { get; set; }
         public int? ClientId { get; set; }
         public string SenderName { get; set; }
@@ -17,6 +12,5 @@ namespace SushiBarDatabaseImplement.Models
         public string Body { get; set; }
         public bool IsRead { get; set; }
         public string Request { get; set; }
-        public virtual Client Client { get; set; }
     }
 }

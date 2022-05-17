@@ -14,6 +14,10 @@ namespace SushiBarContracts.ViewModels
         public string Subject { get; set; }
         [DisplayName("Текст")]
         public string Body { get; set; }
+        [DisplayName("Прочитано")]
+        public bool IsRead { get; set; }
+        [DisplayName("Ответ")]
+        public string Request { get; set; }
 
     }
 }

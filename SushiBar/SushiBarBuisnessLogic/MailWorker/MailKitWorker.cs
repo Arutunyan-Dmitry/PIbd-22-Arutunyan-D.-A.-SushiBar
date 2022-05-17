@@ -68,6 +68,7 @@ namespace SushiBarBusinessLogic.MailWorker
                                 MessageId = message.MessageId,
                                 FromMailAddress = mail.Address,
                                 Subject = message.Subject,
+                                IsRead = false,
                                 Body = message.TextBody
                             });
                         }

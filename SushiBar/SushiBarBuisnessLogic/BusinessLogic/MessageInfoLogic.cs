@@ -22,9 +22,13 @@ namespace SushiBarBusinessLogic.BusinessLogic
             }
             return _messageInfoStorage.GetFilteredList(model);
         }
-        public void CreateOrUpdate(MessageInfoBindingModel model)
+        public void Create(MessageInfoBindingModel model)
         {
             _messageInfoStorage.Insert(model);
+        }
+        public void Update(MessageInfoBindingModel model)
+        {
+            _messageInfoStorage.Update(model);
         }
     }
 }

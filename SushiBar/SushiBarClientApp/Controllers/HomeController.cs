@@ -137,14 +137,17 @@ namespace SushiBarClientApp.Controllers
             return count * prod.Price;
         }
 
-        public IActionResult Mails()
+        public IActionResult Mails(int page = 1)
         {
             if (Program.Client == null)
             {
                 return Redirect("~/Home/Enter");
             }
-            return View(APIClient.GetRequest<List<MessageInfoViewModel>>
-                ($"api/main/GetMessage?clientId={Program.Client.Id}"));
+            var tmp = APIClient.GetRequest<(List<MessageInfoViewModel> list, int numbOfPages)>
+                ($"api/main/GetMessage?clientId={Program.Client.Id}&page={page}");
+
+            var model = (tmp.list, tmp.numbOfPages, page);
+            return View(model);
         }
     }
 }
