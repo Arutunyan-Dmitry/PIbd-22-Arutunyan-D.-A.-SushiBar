@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using SushiBarContracts.Attributes;
 
 namespace SushiBarContracts.ViewModels
 {
@@ -8,7 +8,7 @@ namespace SushiBarContracts.ViewModels
     public class IngredientViewModel
     {
         public int Id { get; set; }
-        [DisplayName("Название ингредиента")]
+        [Column(title: "Название ингредиента", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string IngredientName { get; set; }
     }
 }
