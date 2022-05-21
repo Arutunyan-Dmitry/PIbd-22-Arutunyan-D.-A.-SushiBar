@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using SushiBarContracts.Attributes;
+using System;
+using System.Runtime.Serialization;
 
 namespace SushiBarContracts.ViewModels
 {
@@ -9,13 +11,13 @@ namespace SushiBarContracts.ViewModels
     {
         public int Id { get; set; }
 
-        [DisplayName("ФИО")]
+        [Column(title: "ФИО", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string ClientFLM { get; set; }
 
-        [DisplayName("Почта")]
+        [Column(title: "Почта", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Email { get; set; }
 
-        [DisplayName("Пароль")]
+        [Column(title: "Пароль", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Password { get; set; }
     }
 }

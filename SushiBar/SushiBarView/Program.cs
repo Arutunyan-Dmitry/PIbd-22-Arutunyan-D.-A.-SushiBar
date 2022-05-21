@@ -12,6 +12,8 @@ using SushiBarBusinessLogic.MailWorker;
 using SushiBarContracts.BindingModels;
 using System.Configuration;
 using System.Threading;
+using System.Collections.Generic;
+using SushiBarContracts.Attributes;
 
 namespace SushiBarView
 {
@@ -28,7 +30,7 @@ namespace SushiBarView
                 }
                 return container;
             }
-        }     
+        }
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -56,7 +58,7 @@ namespace SushiBarView
         private static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<IIngredientStorage, IngredientStorage>(new 
+            currentContainer.RegisterType<IIngredientStorage, IngredientStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
             HierarchicalLifetimeManager());
@@ -67,6 +69,8 @@ namespace SushiBarView
             currentContainer.RegisterType<IImplementerStorage, ImplementerStorage>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMessageInfoStorage, MessageInfoStorage>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IBackUpInfo, BackUpInfo>(new
             HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IIngredientLogic, IngredientLogic>(new
@@ -81,7 +85,9 @@ namespace SushiBarView
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IImplementerLogic, ImplementerLogic>(new
             HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IMessageInfoLogic, MessageInfoLogic>(new 
+            currentContainer.RegisterType<IMessageInfoLogic, MessageInfoLogic>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IBackUpLogic, BackUpLogic>(new
             HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new
@@ -99,5 +105,55 @@ namespace SushiBarView
         }
 
         private static void MailCheck(object obj) => Container.Resolve<AbstractMailWorker>().MailCheck();
+
+        public static void ConfigGrid<T>(List<T> data, DataGridView grid)
+        {
+            var type = typeof(T);
+            var config = new List<string>();
+            grid.Columns.Clear();
+            foreach (var prop in type.GetProperties())
+            {
+                // получаем список атрибутов
+                var attributes = prop.GetCustomAttributes(typeof(ColumnAttribute), true);
+                if (attributes != null && attributes.Length > 0)
+                {
+                    foreach (var attr in attributes)
+                    {
+                        // ищем нужный нам атрибут
+                        if (attr is ColumnAttribute columnAttr)
+                        {
+                            config.Add(prop.Name);
+                            var column = new DataGridViewTextBoxColumn
+                            {
+                                Name = prop.Name,
+                                ReadOnly = true,
+                                HeaderText = columnAttr.Title,
+                                Visible = columnAttr.Visible,
+                                Width = columnAttr.Width
+                            };
+                            if (columnAttr.GridViewAutoSize != GridViewAutoSize.None)
+                            {
+                                column.AutoSizeMode =
+                                (DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode),
+                                columnAttr.GridViewAutoSize.ToString());
+                            }
+                            grid.Columns.Add(column);
+                        }
+                    }
+                }
+            }
+            // добавляем строки
+            foreach (var elem in data)
+            {
+                var objs = new List<object>();
+                foreach (var conf in config)
+                {
+                    var value =
+                    elem.GetType().GetProperty(conf).GetValue(elem);
+                    objs.Add(value);
+                }
+                grid.Rows.Add(objs.ToArray());
+            }
+        }
     }
 }

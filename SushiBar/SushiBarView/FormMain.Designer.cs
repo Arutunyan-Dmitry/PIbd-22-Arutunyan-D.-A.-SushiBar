@@ -40,11 +40,12 @@ namespace SushiBarView
             this.списокИнгредиентовПоБлюдамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.запускРаботToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.письменаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonIssuedOrder = new System.Windows.Forms.Button();
             this.buttonRef = new System.Windows.Forms.Button();
-            this.письменаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.создатьБэкапToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -57,7 +58,8 @@ namespace SushiBarView
             this.клиентыToolStripMenuItem,
             this.отчётыToolStripMenuItem,
             this.запускРаботToolStripMenuItem,
-            this.письменаToolStripMenuItem});
+            this.письменаToolStripMenuItem,
+            this.создатьБэкапToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1235, 28);
@@ -140,6 +142,13 @@ namespace SushiBarView
             this.запускРаботToolStripMenuItem.Text = "Запуск работ";
             this.запускРаботToolStripMenuItem.Click += new System.EventHandler(this.запускРаботToolStripMenuItem_Click);
             // 
+            // письменаToolStripMenuItem
+            // 
+            this.письменаToolStripMenuItem.Name = "письменаToolStripMenuItem";
+            this.письменаToolStripMenuItem.Size = new System.Drawing.Size(94, 24);
+            this.письменаToolStripMenuItem.Text = "Письмена";
+            this.письменаToolStripMenuItem.Click += new System.EventHandler(this.письменаToolStripMenuItem_Click);
+            // 
             // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -180,12 +189,12 @@ namespace SushiBarView
             this.buttonRef.UseVisualStyleBackColor = true;
             this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
             // 
-            // письменаToolStripMenuItem
+            // создатьБэкапToolStripMenuItem
             // 
-            this.письменаToolStripMenuItem.Name = "письменаToolStripMenuItem";
-            this.письменаToolStripMenuItem.Size = new System.Drawing.Size(94, 24);
-            this.письменаToolStripMenuItem.Text = "Письмена";
-            this.письменаToolStripMenuItem.Click += new System.EventHandler(this.письменаToolStripMenuItem_Click);
+            this.создатьБэкапToolStripMenuItem.Name = "создатьБэкапToolStripMenuItem";
+            this.создатьБэкапToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
+            this.создатьБэкапToolStripMenuItem.Text = "Создать бэкап";
+            this.создатьБэкапToolStripMenuItem.Click += new System.EventHandler(this.создатьБэкапToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -227,5 +236,6 @@ namespace SushiBarView
         private System.Windows.Forms.ToolStripMenuItem исполнителиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem запускРаботToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem письменаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem создатьБэкапToolStripMenuItem;
     }
 }
