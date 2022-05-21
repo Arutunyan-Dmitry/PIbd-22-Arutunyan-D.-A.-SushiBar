@@ -40,6 +40,7 @@ namespace SushiBarView
             this.списокИнгредиентовПоБлюдамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.запускРаботToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.письменаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonIssuedOrder = new System.Windows.Forms.Button();
@@ -61,7 +62,8 @@ namespace SushiBarView
             this.клиентыToolStripMenuItem,
             this.отчётыToolStripMenuItem,
             this.пополнениеСкладаToolStripMenuItem,
-            this.запускРаботToolStripMenuItem});
+            this.запускРаботToolStripMenuItem,
+            this.письменаToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1235, 28);
@@ -148,6 +150,13 @@ namespace SushiBarView
             this.запускРаботToolStripMenuItem.Text = "Запуск работ";
             this.запускРаботToolStripMenuItem.Click += new System.EventHandler(this.запускРаботToolStripMenuItem_Click);
             // 
+            // письменаToolStripMenuItem
+            // 
+            this.письменаToolStripMenuItem.Name = "письменаToolStripMenuItem";
+            this.письменаToolStripMenuItem.Size = new System.Drawing.Size(94, 24);
+            this.письменаToolStripMenuItem.Text = "Письмена";
+            this.письменаToolStripMenuItem.Click += new System.EventHandler(this.письменаToolStripMenuItem_Click);
+            // 
             // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -193,7 +202,7 @@ namespace SushiBarView
             this.складыToolStripMenuItem.Name = "складыToolStripMenuItem";
             this.складыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.складыToolStripMenuItem.Text = "Склады";
-            this.складыToolStripMenuItem.Click += new System.EventHandler(this.складыToolStripMenuItem_Click);
+            this.складыToolStripMenuItem.Click += new System.EventHandler(this.складыToolStripMenuItem_Click_1);
             // 
             // пополнениеСкладаToolStripMenuItem
             // 
@@ -207,21 +216,21 @@ namespace SushiBarView
             this.списокСкладовToolStripMenuItem.Name = "списокСкладовToolStripMenuItem";
             this.списокСкладовToolStripMenuItem.Size = new System.Drawing.Size(327, 26);
             this.списокСкладовToolStripMenuItem.Text = "Список складов";
-            this.списокСкладовToolStripMenuItem.Click += new System.EventHandler(this.списокСкладовToolStripMenuItem_Click);
+            this.списокСкладовToolStripMenuItem.Click += new System.EventHandler(this.списокСкладовToolStripMenuItem_Click_1);
             // 
             // списокИнгредиентовПоСкладамToolStripMenuItem
             // 
             this.списокИнгредиентовПоСкладамToolStripMenuItem.Name = "списокИнгредиентовПоСкладамToolStripMenuItem";
             this.списокИнгредиентовПоСкладамToolStripMenuItem.Size = new System.Drawing.Size(327, 26);
             this.списокИнгредиентовПоСкладамToolStripMenuItem.Text = "Список ингредиентов по складам";
-            this.списокИнгредиентовПоСкладамToolStripMenuItem.Click += new System.EventHandler(this.списокИнгредиентовПоСкладамToolStripMenuItem_Click);
+            this.списокИнгредиентовПоСкладамToolStripMenuItem.Click += new System.EventHandler(this.списокИнгредиентовПоСкладамToolStripMenuItem_Click_1);
             // 
             // списокКолваЗаказовНаДатуToolStripMenuItem
             // 
             this.списокКолваЗаказовНаДатуToolStripMenuItem.Name = "списокКолваЗаказовНаДатуToolStripMenuItem";
             this.списокКолваЗаказовНаДатуToolStripMenuItem.Size = new System.Drawing.Size(327, 26);
             this.списокКолваЗаказовНаДатуToolStripMenuItem.Text = "Список кол-ва заказов на дату";
-            this.списокКолваЗаказовНаДатуToolStripMenuItem.Click += new System.EventHandler(this.списокКолваЗаказовНаДатуToolStripMenuItem_Click);
+            this.списокКолваЗаказовНаДатуToolStripMenuItem.Click += new System.EventHandler(this.списокКолваЗаказовНаДатуToolStripMenuItem_Click_1);
             // 
             // FormMain
             // 
@@ -262,6 +271,7 @@ namespace SushiBarView
         private System.Windows.Forms.ToolStripMenuItem клиентыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem исполнителиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem запускРаботToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem письменаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокСкладовToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокИнгредиентовПоСкладамToolStripMenuItem;

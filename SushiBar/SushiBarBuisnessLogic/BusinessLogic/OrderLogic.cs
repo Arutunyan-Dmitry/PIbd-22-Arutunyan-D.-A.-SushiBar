@@ -5,19 +5,26 @@ using SushiBarContracts.ViewModels;
 using SushiBarContracts.Enums;
 using System;
 using System.Collections.Generic;
+using SushiBarBusinessLogic.MailWorker;
 
 namespace SushiBarBusinessLogic.BusinessLogic
 {
     public class OrderLogic : IOrderLogic
     {
-        private readonly IOrderStorage _orderStorage;
         private readonly IDishStorage _dishStorage;
+        private readonly IOrderStorage _orderStorage;
+        private readonly IClientStorage _clientStorage;
         private readonly IStorageFacilityStorage _storageFacilityStorage;
-        public OrderLogic(IOrderStorage orderStorage, IDishStorage dishStorage, IStorageFacilityStorage storageFacilityStorage)
+        private readonly AbstractMailWorker _mailWorker;
+        public OrderLogic(IOrderStorage orderStorage, IClientStorage clientStorage,
+            IStorageFacilityStorage storageFacilityStorage, AbstractMailWorker mailWorker,
+            IDishStorage dishStorage)
         {
-            _orderStorage = orderStorage;
             _dishStorage = dishStorage;
+            _orderStorage = orderStorage;
+            _clientStorage = clientStorage;
             _storageFacilityStorage = storageFacilityStorage;
+            _mailWorker = mailWorker;
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
@@ -41,6 +48,16 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = model.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ принят. Дата создания заказа: {DateTime.Now.ToShortTimeString()}. " +
+                $"Сумма заказа: {model.Sum}"
             });
         }
         public void TakeOrderPreparing(ChangeStatusBindingModel model)
@@ -80,6 +97,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 updateBindingModel.DateImplement = DateTime.Now;
                 updateBindingModel.Status = OrderStatus.Готовится;
                 updateBindingModel.ImplementerId = model.ImplementerId;
+                _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+                {
+                    MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                    {
+                        Id = order.ClientId
+                    })?.Email,
+                    Subject = "Заказ в суши-баре",
+                    Text = $"Ваш заказ №{order.Id} был передан на выполнение."
+                });
             }
             _orderStorage.Update(updateBindingModel);
         }
@@ -109,6 +135,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Готов
             });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ №{order.Id} готов."
+            });
         }
         public void DeliveryOrder(ChangeStatusBindingModel model)
         {
@@ -135,6 +170,15 @@ namespace SushiBarBusinessLogic.BusinessLogic
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Выдан
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = "Заказ в суши-баре",
+                Text = $"Ваш заказ №{order.Id} выдан."
             });
         }
     }

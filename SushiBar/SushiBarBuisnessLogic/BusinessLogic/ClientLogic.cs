@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using SushiBarContracts.BindingModels;
 using SushiBarContracts.BuisnessLogicContracts;
 using SushiBarContracts.StoragesContracts;
@@ -10,6 +11,8 @@ namespace SushiBarBusinessLogic.BusinessLogic
     public class ClientLogic : IClientLogic
     {
         private readonly IClientStorage _clientStorage;
+        private readonly int _passwordMaxLength = 50;
+        private readonly int _passwordMinLength = 10;
 
         public ClientLogic(IClientStorage clientStorage)
         {
@@ -38,6 +41,17 @@ namespace SushiBarBusinessLogic.BusinessLogic
             {
                 throw new Exception("Уже есть клиент с такой почтой");
             }
+            if (!Regex.IsMatch(model.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+            {
+                throw new Exception("В качестве логина должна быть указана почта");
+            }
+            if (model.Password.Length > _passwordMaxLength || model.Password.Length < _passwordMinLength || 
+                !Regex.IsMatch(model.Password, @"^((\w+\d+\W+)|(\w+\W+\d+)|(\d+\w+\W+)|(\d+\W+\w+)|(\W+\w+\d+)|(\W+\d+\w+))[\w\d\W]*$"))
+            {
+                throw new Exception($"Пароль должен быть длиной от {_passwordMinLength} до " +
+                    $"{ _passwordMaxLength } и состоять из цифр, букв и небуквенных символов");
+            }
+
             if (model.Id.HasValue)
             {
                 _clientStorage.Update(model);

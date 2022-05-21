@@ -16,11 +16,15 @@ namespace SushiBarFileImplement
         private readonly string DishFileName = "Dish.xml";
         private readonly string StorageFacilityFileName = "StorageFacility.xml";
         private readonly string ClientFileName = "Client.xml";
+        private readonly string ImplementerFileName = "Implementer.xml";
+        private readonly string MessageInfoFileName = "MessageInfo.xml";
         public List<Ingredient> Ingredients { get; set; }
         public List<Order> Orders { get; set; }
         public List<Dish> Dishes { get; set; }
         public List<StorageFacility> StorageFacilities { get; set; }
         public List<Client> Clients { get; set; }
+        public List<Implementer> Implementers { get; set; }
+        public List<MessageInfo> MessageInfos { get; set; }
         private FileDataListSingleton()
         {
             Ingredients = LoadIngredients();
@@ -28,6 +32,8 @@ namespace SushiBarFileImplement
             Dishes = LoadDishes();
             StorageFacilities = LoadStorageFacilities();
             Clients = LoadClients();
+            Implementers = LoadImplementers();
+            MessageInfos = LoadMessageInfos();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -44,6 +50,8 @@ namespace SushiBarFileImplement
             instance.SaveOrders();
             instance.SaveStorageFacilities();
             instance.SaveClients();
+            instance.SaveImplementers();
+            instance.SaveMessageInfos();
         }
         private List<Ingredient> LoadIngredients()
         {
@@ -165,6 +173,49 @@ namespace SushiBarFileImplement
             }
             return list;
         }
+        private List<Implementer> LoadImplementers() {
+            var list = new List<Implementer>();
+            if (File.Exists(ImplementerFileName))
+            {
+                var xDocument = XDocument.Load(ImplementerFileName);
+                var xElements = xDocument.Root.Elements("Implementer").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ImplementerFLM = elem.Element("ImplementerFLM").Value,
+                        WorkingTime = Convert.ToInt32(elem.Element("WorkingTime").Value),
+                        PauseTime = Convert.ToInt32(elem.Element("PauseTime").Value)
+                    });
+                }
+            }
+            return list;
+        }
+        private List<MessageInfo> LoadMessageInfos()
+        {
+            var list = new List<MessageInfo>();
+            if (File.Exists(MessageInfoFileName))
+            {
+                var xDocument = XDocument.Load(MessageInfoFileName);
+                var xElements = xDocument.Root.Elements("MessageInfo").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new MessageInfo
+                    {
+                        MessageId = elem.Attribute("MessageId").Value,
+                        ClientId = Convert.ToInt32(elem.Attribute("ClientId").Value),
+                        SenderName = elem.Attribute("SenderName").Value,
+                        DateDelivery = Convert.ToDateTime(elem.Attribute("DateDelivery").Value),
+                        Subject = elem.Attribute("Subject").Value,
+                        Body = elem.Attribute("Body").Value,
+                        IsRead = Convert.ToBoolean(elem.Attribute("IsRead").Value),
+                        Request = elem.Attribute("Request").Value
+                    });
+                }
+            }
+            return list;
+        }
 
         private void SaveIngredients()
         {
@@ -265,6 +316,44 @@ namespace SushiBarFileImplement
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(ClientFileName);
+            }
+        }
+        private void SaveImplementers()
+        {
+            if (Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+                foreach (var implementer in Implementers)
+                {
+                    xElement.Add(new XElement("Implementer",
+                    new XAttribute("Id", implementer.Id),
+                    new XElement("ImplementerFLM", implementer.ImplementerFLM),
+                    new XElement("WorkingTime", implementer.WorkingTime),
+                    new XElement("PauseTime", implementer.PauseTime)));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ImplementerFileName);
+            }
+        }
+        private void SaveMessageInfos()
+        {
+            if (MessageInfos != null)
+            {
+                var xElement = new XElement("MessageInfos");
+                foreach (var mi in MessageInfos)
+                {
+                    xElement.Add(new XElement("MessageInfo",
+                    new XAttribute("MessageId", mi.MessageId),
+                    new XElement("ClientId", mi.ClientId),
+                    new XElement("SenderName", mi.SenderName),
+                    new XElement("DateDelivery", mi.DateDelivery),
+                    new XElement("Subject", mi.Subject),
+                    new XElement("Body", mi.Body),
+                    new XElement("IsRead", mi.IsRead),
+                    new XElement("Request", mi.Request)));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(MessageInfoFileName);
             }
         }
     }

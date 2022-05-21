@@ -4,18 +4,17 @@ using SushiBarContracts.StoragesContracts;
 using SushiBarDatabaseImplement.Implements;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using M6T.Core.TupleModelBinder;
+using SushiBarBusinessLogic.MailWorker;
+using SushiBarContracts.BindingModels;
 
 namespace SushiBarRestApi
 {
@@ -36,12 +35,16 @@ namespace SushiBarRestApi
             services.AddTransient<IIngredientStorage, IngredientStorage>();
             services.AddTransient<IDishStorage, DishStorage>();
             services.AddTransient<IStorageFacilityStorage, StorageFacilityStorage>();
+            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
 
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IIngredientLogic, IngredientLogic>();
             services.AddTransient<IDishLogic, DishLogic>();
             services.AddTransient<IStorageFacilityLogic, StorageFacilityLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
+
+            services.AddSingleton<AbstractMailWorker, MailKitWorker>();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
@@ -73,6 +76,16 @@ namespace SushiBarRestApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            var mailSender = app.ApplicationServices.GetService<AbstractMailWorker>();
+            mailSender.MailConfig(new MailConfigBindingModel
+            {
+                MailLogin = Configuration?.GetSection("MailLogin")?.Value.ToString(),
+                MailPassword = Configuration?.GetSection("MailPassword")?.Value.ToString(),
+                SmtpClientHost = Configuration?.GetSection("SmtpClientHost")?.Value.ToString(),
+                SmtpClientPort = Convert.ToInt32(Configuration?.GetSection("SmtpClientPort")?.Value.ToString()),
+                PopHost = Configuration?.GetSection("PopHost")?.Value.ToString(),
+                PopPort = Convert.ToInt32(Configuration?.GetSection("PopPort")?.Value.ToString())
             });
         }
     }
