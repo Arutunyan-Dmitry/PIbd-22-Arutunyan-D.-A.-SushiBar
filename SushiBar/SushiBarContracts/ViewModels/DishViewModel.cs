@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SushiBarContracts.Attributes;
 
 namespace SushiBarContracts.ViewModels
 {
@@ -9,9 +9,9 @@ namespace SushiBarContracts.ViewModels
     public class DishViewModel
     {
         public int Id { get; set; }
-        [DisplayName("Название блюда")]
+        [Column(title: "Название блюда", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string DishName { get; set; }
-        [DisplayName("Цена")]
+        [Column(title: "Цена", gridViewAutoSize: GridViewAutoSize.Fill)]
         public decimal Price { get; set; }
         public Dictionary<int, (string, int)> DishIngredients { get; set; }
     }

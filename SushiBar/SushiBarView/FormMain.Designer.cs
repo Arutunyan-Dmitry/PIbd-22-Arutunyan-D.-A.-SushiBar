@@ -59,7 +59,8 @@ namespace SushiBarView
             this.отчётыToolStripMenuItem,
             this.пополнениеСкладаToolStripMenuItem,
             this.запускРаботToolStripMenuItem,
-            this.письменаToolStripMenuItem});
+            this.письменаToolStripMenuItem,
+            this.создатьБэкапToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1235, 28);

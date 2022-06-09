@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using SushiBarContracts.Attributes;
+using System;
 
 namespace SushiBarContracts.ViewModels
 {
@@ -10,23 +10,23 @@ namespace SushiBarContracts.ViewModels
     {
         public int Id { get; set; }
         public int ClientId { get; set; }
-        [DisplayName("Клиент")]
+        [Column(title: "Клиент", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string ClientFLM { get; set; }
         public int? ImplementerId { get; set; }
-        [DisplayName("Исполнитель")]
+        [Column(title: "Исполнитель", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string ImplementerFLM { get; set; } 
         public int DishId { get; set; }
-        [DisplayName("Блюдо")]
+        [Column(title: "Блюдо", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string DishName { get; set; }
-        [DisplayName("Количество")]
+        [Column(title: "Количество", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int Count { get; set; }
-        [DisplayName("Сумма")]
+        [Column(title: "Сумма", gridViewAutoSize: GridViewAutoSize.Fill)]
         public decimal Sum { get; set; }
-        [DisplayName("Статус")]
+        [Column(title: "Статус", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Status { get; set; }
-        [DisplayName("Дата создания")]
+        [Column(title: "Дата создания", gridViewAutoSize: GridViewAutoSize.Fill)]
         public DateTime DateCreate { get; set; }
-        [DisplayName("Дата выполнения")]
+        [Column(title: "Дата выполнения", gridViewAutoSize: GridViewAutoSize.Fill)]
         public DateTime? DateImplement { get; set; }
 
     }
