@@ -20,13 +20,13 @@ namespace SushiBarContracts.ViewModels
         public string DishName { get; set; }
         [Column(title: "Количество", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int Count { get; set; }
-        [Column(title: "Сумма", gridViewAutoSize: GridViewAutoSize.Fill)]
+        [Column(title: "Сумма", format: "c1", gridViewAutoSize: GridViewAutoSize.Fill)]
         public decimal Sum { get; set; }
         [Column(title: "Статус", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Status { get; set; }
-        [Column(title: "Дата создания", gridViewAutoSize: GridViewAutoSize.Fill)]
+        [Column(title: "Дата создания", format: "dd/MM/yyyy", gridViewAutoSize: GridViewAutoSize.Fill)]
         public DateTime DateCreate { get; set; }
-        [Column(title: "Дата выполнения", gridViewAutoSize: GridViewAutoSize.Fill)]
+        [Column(title: "Дата выполнения", format: "dd/MM/yyyy", gridViewAutoSize: GridViewAutoSize.Fill)]
         public DateTime? DateImplement { get; set; }
 
     }

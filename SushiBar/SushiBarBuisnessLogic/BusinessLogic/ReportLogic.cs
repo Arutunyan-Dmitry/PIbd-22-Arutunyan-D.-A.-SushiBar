@@ -7,6 +7,7 @@ using SushiBarContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace SushiBarBusinessLogic.BusinessLogic
 {
@@ -129,11 +130,12 @@ namespace SushiBarBusinessLogic.BusinessLogic
         /// <param name="model"></param>
         public void SaveDishesToWordFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetFullList");
             _saveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
                 Title = "Список блюд",
-                Dishes = _dishStorage.GetFullList()
+                Dishes = (List<DishViewModel>)method.Invoke(this, null)
             });
         }
         /// <summary>
@@ -142,11 +144,12 @@ namespace SushiBarBusinessLogic.BusinessLogic
         /// <param name="model"></param>
         public void SaveStorageFacilitiesToWordFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetFullList");
             _saveToWord.CreateTableDoc(new WordStorageFacilityInfo
             {
                 FileName = model.FileName,
                 Title = "Список складов",
-                StorageFacilities = _sorageFacilityStorage.GetFullList()
+                StorageFacilities = (List<StorageFacilityViewModel>)method.Invoke(this, null)
             });
         }
         /// <summary>
@@ -155,11 +158,12 @@ namespace SushiBarBusinessLogic.BusinessLogic
         /// <param name="model"></param>
         public void SaveDishIngredientToExcelFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetDishIngredient");
             _saveToExcel.CreateReport(new ExcelInfo
             {
                 FileName = model.FileName,
                 Title = "Список блюд и ингредиентов",
-                DishIngredients = GetDishIngredient()
+                DishIngredients = (List<ReportDishIngredientViewModel>)method.Invoke(this, null)
             });
         }
         /// <summary>
@@ -168,12 +172,13 @@ namespace SushiBarBusinessLogic.BusinessLogic
         /// <param name="model"></param>
         public void SaveStorageFacilityIngredientsToExcelFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetStorageFacilityIngredient");
             _saveToExcel.CreateStorageFacilityReport(new ExcelStorageFacilityInfo
             {
                 FileName = model.FileName,
                 Title = "Список складов и ингредиентов",
-                StorageFacilityIngredients = GetStorageFacilityIngredient()
-            });
+                StorageFacilityIngredients = (List<ReportStorageFacilityIngredientsViewModel>)method.Invoke(this, null)
+            }); 
         }
         /// <summary>
         /// Сохранение заказов в файл-Pdf
@@ -181,13 +186,14 @@ namespace SushiBarBusinessLogic.BusinessLogic
         /// <param name="model"></param>
         public void SaveOrdersToPdfFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetOrders");
             _saveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
                 Title = "Список заказов",
                 DateFrom = model.DateFrom.Value,
                 DateTo = model.DateTo.Value,
-                Orders = GetOrders(model)
+                Orders = (List<ReportOrdersViewModel>)method.Invoke(this, new object[] { model })
             });
         }
         /// <summary>
@@ -196,11 +202,12 @@ namespace SushiBarBusinessLogic.BusinessLogic
         /// <param name="model"></param>
         public void SaveOrdersDateToPdfFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetOrdersDate");
             _saveToPdf.CreateDocOrdersDate(new PdfOrdersDateInfo
             {
                 FileName = model.FileName,
                 Title = "Список количества заказов по датам",
-                OrdersDate = GetOrdersDate()
+                OrdersDate = (List<ReportOrdersDateViewModel>)method.Invoke(this, null)
             });
         }
     }

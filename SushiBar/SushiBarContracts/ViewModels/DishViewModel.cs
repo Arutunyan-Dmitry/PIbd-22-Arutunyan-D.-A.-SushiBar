@@ -11,7 +11,7 @@ namespace SushiBarContracts.ViewModels
         public int Id { get; set; }
         [Column(title: "Название блюда", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string DishName { get; set; }
-        [Column(title: "Цена", gridViewAutoSize: GridViewAutoSize.Fill)]
+        [Column(title: "Цена", format: "c1", gridViewAutoSize: GridViewAutoSize.Fill)]
         public decimal Price { get; set; }
         public Dictionary<int, (string, int)> DishIngredients { get; set; }
     }

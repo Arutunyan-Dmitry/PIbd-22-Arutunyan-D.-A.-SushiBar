@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Unity;
+using System.Reflection;
 using SushiBarContracts.BindingModels;
 using SushiBarContracts.BuisnessLogicContracts;
 
@@ -14,7 +15,7 @@ namespace SushiBarView
         private readonly IWorkProcess _workProcess;
         private readonly IBackUpLogic _backUpLogic;
 
-        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic, 
+        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic,
             IImplementerLogic implementerLogic, IWorkProcess workProcess,
             IBackUpLogic backUpLogic)
         {
@@ -108,9 +109,13 @@ namespace SushiBarView
             using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                _reportLogic.SaveDishesToWordFile(new ReportBindingModel
+                MethodInfo method = _reportLogic.GetType().GetMethod("SaveDishesToWordFile");
+                method.Invoke(_reportLogic, new object[]
                 {
-                    FileName = dialog.FileName
+                    new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    }
                 });
                 MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -133,9 +138,13 @@ namespace SushiBarView
             using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                _reportLogic.SaveStorageFacilitiesToWordFile(new ReportBindingModel
+                MethodInfo method = _reportLogic.GetType().GetMethod("SaveStorageFacilitiesToWordFile");
+                method.Invoke(_reportLogic, new object[]
                 {
-                    FileName = dialog.FileName
+                    new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    }
                 });
                 MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -181,9 +190,9 @@ namespace SushiBarView
                     var fbd = new FolderBrowserDialog();
                     if (fbd.ShowDialog() == DialogResult.OK)
                     {
-                        _backUpLogic.CreateBackUp(new BackUpSaveBinidngModel 
-                        { 
-                            FolderName = fbd.SelectedPath 
+                        _backUpLogic.CreateBackUp(new BackUpSaveBinidngModel
+                        {
+                            FolderName = fbd.SelectedPath
                         });
                         MessageBox.Show("Бекап создан", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }

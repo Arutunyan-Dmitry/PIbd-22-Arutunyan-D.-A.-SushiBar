@@ -4,6 +4,7 @@ using Microsoft.Reporting.WinForms;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace SushiBarView
 {
@@ -34,15 +35,19 @@ namespace SushiBarView
             }
             try
             {
-                var dataSource = _logic.GetOrders(new ReportBindingModel
+                var parameters = new[] { new ReportParameter("ReportParameterPeriod", "C " + dateTimePickerFrom.Value.ToShortDateString() + " по " + dateTimePickerTo.Value.ToShortDateString()) };
+                MethodInfo method = _logic.GetType().GetMethod("GetOrders");
+                var dataSource = method.Invoke(_logic, new object[]
                 {
-                    DateFrom = dateTimePickerFrom.Value,
-                    DateTo = dateTimePickerTo.Value
+                    new ReportBindingModel
+                    {
+                        DateFrom = dateTimePickerFrom.Value,
+                        DateTo = dateTimePickerTo.Value
+                    }
                 });
                 var source = new ReportDataSource("DataSetOrders", dataSource);
                 reportViewer.LocalReport.DataSources.Clear();
                 reportViewer.LocalReport.DataSources.Add(source);
-                var parameters = new[] { new ReportParameter("ReportParameterPeriod", "C " + dateTimePickerFrom.Value.ToShortDateString() + " по " + dateTimePickerTo.Value.ToShortDateString()) };
                 reportViewer.LocalReport.SetParameters(parameters);
                 reportViewer.RefreshReport();
             }

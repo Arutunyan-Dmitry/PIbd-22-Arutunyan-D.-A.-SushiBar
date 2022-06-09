@@ -1,6 +1,9 @@
 ﻿using SushiBarContracts.BindingModels;
 using SushiBarContracts.BuisnessLogicContracts;
+using SushiBarContracts.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace SushiBarView
@@ -18,7 +21,8 @@ namespace SushiBarView
         {
             try
             {
-                var dict = _logic.GetStorageFacilityIngredient();
+                MethodInfo method = _logic.GetType().GetMethod("GetStorageFacilityIngredient");
+                var dict = (List<ReportStorageFacilityIngredientsViewModel>)method.Invoke(_logic, null);
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();

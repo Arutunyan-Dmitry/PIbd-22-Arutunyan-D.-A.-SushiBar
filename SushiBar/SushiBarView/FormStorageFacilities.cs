@@ -2,9 +2,7 @@
 using System.Windows.Forms;
 using Unity;
 using SushiBarContracts.BindingModels;
-using SushiBarContracts.ViewModels;
 using SushiBarContracts.BuisnessLogicContracts;
-using System.Collections.Generic;
 
 namespace SushiBarView
 {
@@ -25,14 +23,7 @@ namespace SushiBarView
         {
             try
             {
-                List<StorageFacilityViewModel> list = _logic.Read(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[4].Visible = false;
-                }
+                Program.ConfigGrid(_logic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {
