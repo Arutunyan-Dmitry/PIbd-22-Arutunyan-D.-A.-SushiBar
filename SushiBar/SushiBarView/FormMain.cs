@@ -13,7 +13,7 @@ namespace SushiBarView
         private readonly IImplementerLogic _implementerLogic;
         private readonly IWorkProcess _workProcess;
         private readonly IBackUpLogic _backUpLogic;
-
+        
         public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic,
             IImplementerLogic implementerLogic, IWorkProcess workProcess,
             IBackUpLogic backUpLogic)
