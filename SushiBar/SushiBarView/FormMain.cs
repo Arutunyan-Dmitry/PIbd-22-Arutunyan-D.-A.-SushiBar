@@ -13,8 +13,8 @@ namespace SushiBarView
         private readonly IImplementerLogic _implementerLogic;
         private readonly IWorkProcess _workProcess;
         private readonly IBackUpLogic _backUpLogic;
-        
-        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic,
+
+        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic, 
             IImplementerLogic implementerLogic, IWorkProcess workProcess,
             IBackUpLogic backUpLogic)
         {
@@ -151,9 +151,9 @@ namespace SushiBarView
                     var fbd = new FolderBrowserDialog();
                     if (fbd.ShowDialog() == DialogResult.OK)
                     {
-                        _backUpLogic.CreateBackUp(new BackUpSaveBinidngModel
-                        {
-                            FolderName = fbd.SelectedPath
+                        _backUpLogic.CreateBackUp(new BackUpSaveBinidngModel 
+                        { 
+                            FolderName = fbd.SelectedPath 
                         });
                         MessageBox.Show("Бекап создан", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
