@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.buttonPrev = new System.Windows.Forms.Button();
             this.buttonGetCurrentPage = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.textBoxPage = new System.Windows.Forms.TextBox();
@@ -37,6 +36,7 @@
             this.labelPageAmount = new System.Windows.Forms.Label();
             this.ButtonOpen = new System.Windows.Forms.Button();
             this.groupBoxPagin = new System.Windows.Forms.GroupBox();
+            this.buttonPrev = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.groupBoxPagin.SuspendLayout();
             this.SuspendLayout();
@@ -50,16 +50,6 @@
             this.dataGridView.RowTemplate.Height = 29;
             this.dataGridView.Size = new System.Drawing.Size(798, 414);
             this.dataGridView.TabIndex = 0;
-            // 
-            // buttonPrev
-            // 
-            this.buttonPrev.Location = new System.Drawing.Point(11, 98);
-            this.buttonPrev.Name = "buttonPrev";
-            this.buttonPrev.Size = new System.Drawing.Size(80, 30);
-            this.buttonPrev.TabIndex = 1;
-            this.buttonPrev.Text = "<<";
-            this.buttonPrev.UseVisualStyleBackColor = true;
-            this.buttonPrev.Click += new System.EventHandler(this.buttonPrev_Click);
             // 
             // buttonGetCurrentPage
             // 
@@ -117,8 +107,8 @@
             // 
             // groupBoxPagin
             // 
-            this.groupBoxPagin.Controls.Add(this.labelTxt);
             this.groupBoxPagin.Controls.Add(this.buttonPrev);
+            this.groupBoxPagin.Controls.Add(this.labelTxt);
             this.groupBoxPagin.Controls.Add(this.labelPageAmount);
             this.groupBoxPagin.Controls.Add(this.buttonGetCurrentPage);
             this.groupBoxPagin.Controls.Add(this.buttonNext);
@@ -129,6 +119,16 @@
             this.groupBoxPagin.TabIndex = 8;
             this.groupBoxPagin.TabStop = false;
             this.groupBoxPagin.Text = "Переход по страницам";
+            // 
+            // buttonPrev
+            // 
+            this.buttonPrev.Location = new System.Drawing.Point(11, 98);
+            this.buttonPrev.Name = "buttonPrev";
+            this.buttonPrev.Size = new System.Drawing.Size(80, 30);
+            this.buttonPrev.TabIndex = 7;
+            this.buttonPrev.Text = "<<";
+            this.buttonPrev.UseVisualStyleBackColor = true;
+            this.buttonPrev.Click += new System.EventHandler(this.buttonPrev_Click_1);
             // 
             // FormMails
             // 
@@ -151,7 +151,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.Button buttonPrev;
         private System.Windows.Forms.Button buttonGetCurrentPage;
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.TextBox textBoxPage;
@@ -159,5 +158,6 @@
         private System.Windows.Forms.Label labelPageAmount;
         private System.Windows.Forms.Button ButtonOpen;
         private System.Windows.Forms.GroupBox groupBoxPagin;
+        private System.Windows.Forms.Button buttonPrev;
     }
 }

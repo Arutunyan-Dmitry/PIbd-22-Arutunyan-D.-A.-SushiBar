@@ -1,5 +1,6 @@
 ﻿using SushiBarContracts.Attributes;
 using System;
+using System.ComponentModel;
 
 namespace SushiBarContracts.ViewModels
 {

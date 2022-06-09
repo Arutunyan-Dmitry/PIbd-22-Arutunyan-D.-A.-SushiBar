@@ -56,6 +56,11 @@ namespace SushiBarView
             form.ShowDialog();
         }
 
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormStorageFacilities>();
+            form.ShowDialog();
+        }
         private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormImplementers>();
@@ -122,6 +127,31 @@ namespace SushiBarView
             var form = Program.Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
+
+        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                _reportLogic.SaveStorageFacilitiesToWordFile(new ReportBindingModel
+                {
+                    FileName = dialog.FileName
+                });
+                MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void списокИToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormReportStorageFacilityIngredients>();
+            form.ShowDialog();
+        }
+
+        private void списокКолваЗаказовНаДатуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormReportOrdersDate>();
+            form.ShowDialog();
+        }
         //----------------------------     ***     -----------------------------------
 
         //---------------------- Отдельные атрибуты меню -----------------------------
@@ -163,6 +193,12 @@ namespace SushiBarView
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormStorageFacilityFill>();
+            form.ShowDialog();
         }
         //----------------------------     ***     -----------------------------------
     }
