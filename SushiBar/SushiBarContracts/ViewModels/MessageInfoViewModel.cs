@@ -1,22 +1,22 @@
-﻿using System;
-using System.ComponentModel;
+﻿using SushiBarContracts.Attributes;
+using System;
 
 namespace SushiBarContracts.ViewModels
 {
     public class MessageInfoViewModel
     {
         public string MessageId { get; set; }
-        [DisplayName("Отправитель")]
+        [Column(title: "Отправитель", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string SenderName { get; set; }
-        [DisplayName("Дата письма")]
+        [Column(title: "Дата письма", format: "dd/MM/yyyy", gridViewAutoSize: GridViewAutoSize.Fill)]
         public DateTime DateDelivery { get; set; }
-        [DisplayName("Заголовок")]
+        [Column(title: "Заголовок", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Subject { get; set; }
-        [DisplayName("Текст")]
+        [Column(title: "Текст", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Body { get; set; }
-        [DisplayName("Прочитано")]
+        [Column(title: "Прочитано", gridViewAutoSize: GridViewAutoSize.Fill)]
         public bool IsRead { get; set; }
-        [DisplayName("Ответ")]
+        [Column(title: "Ответ", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Request { get; set; }
 
     }

@@ -2,8 +2,11 @@
 using SushiBarContracts.BuisnessLogicContracts;
 using Microsoft.Reporting.WinForms;
 using System;
+using System.Reflection;
 using System.IO;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using SushiBarContracts.ViewModels;
 
 namespace SushiBarView
 {
@@ -29,7 +32,8 @@ namespace SushiBarView
         {
             try
             {
-                var dataSource = _logic.GetOrdersDate();
+                MethodInfo method = _logic.GetType().GetMethod("GetOrdersDate");
+                var dataSource = (List<ReportOrdersDateViewModel>)method.Invoke(_logic, null);
                 var source = new ReportDataSource("DataSetOrdersDate", dataSource);
                 reportViewer.LocalReport.DataSources.Clear();
                 reportViewer.LocalReport.DataSources.Add(source);

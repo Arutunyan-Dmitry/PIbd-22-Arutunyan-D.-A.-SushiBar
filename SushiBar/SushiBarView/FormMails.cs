@@ -30,8 +30,8 @@ namespace SushiBarView
                 NumOfPages = list.Count / mailsOnPage;
                 if (list.Count % mailsOnPage != 0) { NumOfPages++; }
                 labelPageAmount.Text = "из " + NumOfPages.ToString();
-            } 
-            catch (Exception ex) 
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -42,7 +42,7 @@ namespace SushiBarView
         {
             try
             {
-                var list = _logic.Read(new MessageInfoBindingModel { ToSkip = currentPage * mailsOnPage, ToTake = mailsOnPage});
+                var list = _logic.Read(new MessageInfoBindingModel { ToSkip = currentPage * mailsOnPage, ToTake = mailsOnPage });
 
                 hasNext = !(currentPage >= NumOfPages - 1);
 
@@ -56,7 +56,7 @@ namespace SushiBarView
                 }
 
                 if (list != null)
-                {                 
+                {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[5].ReadOnly = true;
@@ -66,7 +66,7 @@ namespace SushiBarView
                 if (currentPage != 0)
                 {
                     buttonPrev.Enabled = true;
-                } 
+                }
                 else
                 {
                     buttonPrev.Enabled = false;
@@ -89,7 +89,7 @@ namespace SushiBarView
             }
         }
 
-        private void buttonPrev_Click(object sender, EventArgs e)
+        private void buttonPrev_Click_1(object sender, EventArgs e)
         {
             if ((currentPage - 1) >= 0)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Unity;
+using System.Reflection;
 using SushiBarContracts.BindingModels;
 using SushiBarContracts.BuisnessLogicContracts;
 
@@ -12,15 +13,18 @@ namespace SushiBarView
         private readonly IReportLogic _reportLogic;
         private readonly IImplementerLogic _implementerLogic;
         private readonly IWorkProcess _workProcess;
+        private readonly IBackUpLogic _backUpLogic;
 
-        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic, 
-            IImplementerLogic implementerLogic, IWorkProcess workProcess)
+        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic,
+            IImplementerLogic implementerLogic, IWorkProcess workProcess,
+            IBackUpLogic backUpLogic)
         {
             InitializeComponent();
             _orderLogic = orderLogic;
             _reportLogic = reportLogic;
             _implementerLogic = implementerLogic;
             _workProcess = workProcess;
+            _backUpLogic = backUpLogic;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -31,20 +35,12 @@ namespace SushiBarView
         {
             try
             {
-                var list = _orderLogic.Read(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[3].Visible = false;
-                    dataGridView.Columns[5].Visible = false;
-                    dataGridView.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(_orderLogic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
             }
         }
 
@@ -54,9 +50,16 @@ namespace SushiBarView
             var form = Program.Container.Resolve<FormIngredients>();
             form.ShowDialog();
         }
+
         private void блюдаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormDishes>();
+            form.ShowDialog();
+        }
+
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormStorageFacilities>();
             form.ShowDialog();
         }
         private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
@@ -64,11 +67,6 @@ namespace SushiBarView
             var form = Program.Container.Resolve<FormImplementers>();
             form.ShowDialog();
         }
-        private void складыToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            var form = Program.Container.Resolve<FormStorageFacilities>();
-            form.ShowDialog();
-        }       
         //----------------------------     ***     -----------------------------------
 
         //---------------------- Кнопки управления заказами --------------------------
@@ -78,6 +76,7 @@ namespace SushiBarView
             form.ShowDialog();
             LoadData();
         }
+
         private void buttonIssuedOrder_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
@@ -97,6 +96,7 @@ namespace SushiBarView
                 }
             }
         }
+
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
@@ -109,41 +109,54 @@ namespace SushiBarView
             using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                _reportLogic.SaveDishesToWordFile(new ReportBindingModel
+                MethodInfo method = _reportLogic.GetType().GetMethod("SaveDishesToWordFile");
+                method.Invoke(_reportLogic, new object[]
                 {
-                    FileName = dialog.FileName
+                    new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    }
                 });
                 MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
         private void списокИнгредиентовПоБлюдамToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportDishIngredients>();
             form.ShowDialog();
         }
+
         private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
-        private void списокСкладовToolStripMenuItem_Click_1(object sender, EventArgs e)
+
+        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                _reportLogic.SaveStorageFacilitiesToWordFile(new ReportBindingModel
+                MethodInfo method = _reportLogic.GetType().GetMethod("SaveStorageFacilitiesToWordFile");
+                method.Invoke(_reportLogic, new object[]
                 {
-                    FileName = dialog.FileName
+                    new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    }
                 });
                 MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        private void списокИнгредиентовПоСкладамToolStripMenuItem_Click_1(object sender, EventArgs e)
+
+        private void списокИToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportStorageFacilityIngredients>();
             form.ShowDialog();
         }
-        private void списокКолваЗаказовНаДатуToolStripMenuItem_Click_1(object sender, EventArgs e)
+
+        private void списокКолваЗаказовНаДатуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportOrdersDate>();
             form.ShowDialog();
@@ -156,15 +169,41 @@ namespace SushiBarView
             var form = Program.Container.Resolve<FormClients>();
             form.ShowDialog();
         }
+
         private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _workProcess.DoWork(_implementerLogic, _orderLogic);
         }
+
         private void письменаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormMails>();
             form.ShowDialog();
         }
+
+        private void создатьБэкапToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_backUpLogic != null)
+                {
+                    var fbd = new FolderBrowserDialog();
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        _backUpLogic.CreateBackUp(new BackUpSaveBinidngModel
+                        {
+                            FolderName = fbd.SelectedPath
+                        });
+                        MessageBox.Show("Бекап создан", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormStorageFacilityFill>();

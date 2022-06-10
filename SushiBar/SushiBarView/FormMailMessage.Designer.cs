@@ -135,7 +135,7 @@
             this.Controls.Add(this.textBoxSender);
             this.Controls.Add(this.labelSenderName);
             this.Name = "FormMailMessage";
-            this.Text = "FormMailMessage";
+            this.Text = "Письмо";
             this.Load += new System.EventHandler(this.FormMailMessage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
